@@ -1,0 +1,48 @@
+workflows:
+  personalnotes-debug-workflow:
+    name: PersonalNotes Debug Workflow
+    max_build_duration: 60
+    instance_type: mac_mini
+    environment:
+      groups:
+        - loco_keys_group
+        - google_services_group
+      vars:
+        GOOGLE_SERVICES_PATH: $FCI_BUILD_DIR/app/google-services.json
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'feature/*'
+          include: true
+          source: true
+        - pattern: 'bugfix/*'
+          include: true
+          source: true
+      cancel_previous_builds: false
+    scripts:
+      - &setup_google_services_file
+          name: Setup google sevices file
+          script: |
+            echo $PERSONALNOTES_GOOGLE_PLAY_SERVICES | base64 --decode > $GOOGLE_SERVICES_PATH
+      - &download_translations
+        name: Download translations
+        script: |
+          echo "Remove current translations"
+          rm $FCI_BUILD_DIR/common/resources/src/main/res/values/strings.xml
+          echo "Download EN translations from Loco and save as strings.xml"
+          curl "https://localise.biz/api/export/locale/en-GB.xml?format=android&key=$PERSONALNOTES_LOCO_KEY" > $FCI_BUILD_DIR/app/src/main/res/values/strings.xml
+      - name: Build debug Android app
+        script: ./gradlew assembleDebug
+      - name: Test debug Android app
+        script: ./gradlew test
+        test_report: app/build/test-results/**/*.xml
+    artifacts:
+      - app/build/outputs/**/**/*.apk
+    publishing:
+      email:
+        recipients:
+          - mk.software101@gmail.com
+        notify:
+          failure: true
+          success: false
