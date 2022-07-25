@@ -1,6 +1,8 @@
 plugins {
     id(Plugins.androidApplication)
     id(Plugins.kotlinAndroid)
+    id(Plugins.googleServices)
+    id(Plugins.firebaseCrashlytics)
 }
 
 android {
@@ -38,13 +40,20 @@ android {
 }
 
 dependencies {
-
     implementation(Deps.coreKtx)
     implementation(Deps.appCompat)
     implementation(Deps.material)
     implementation(Deps.constraintLayout)
+
+    // Logging
     implementation(Deps.logging)
 
+    // Firebase
+    implementation(platform(Deps.firebaseBom))
+    implementation(Deps.firebaseAnalyticsKtx)
+    implementation(Deps.firebaseCrashlyticsKtx)
+
+    // Tests
     testImplementation(TestDeps.junit)
     androidTestImplementation(TestDeps.androidExtJunit)
     androidTestImplementation(TestDeps.espresso)

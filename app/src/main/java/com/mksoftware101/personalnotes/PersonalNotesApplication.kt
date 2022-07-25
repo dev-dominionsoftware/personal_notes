@@ -9,6 +9,8 @@ class PersonalNotesApplication : Application() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+        } else {
+            Timber.plant(CrashlyticsTimberTree())
         }
     }
 }

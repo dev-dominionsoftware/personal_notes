@@ -6,6 +6,9 @@ workflows:
     environment:
       groups:
         - loco_keys_group
+        - google_services_group
+      vars:
+        GOOGLE_SERVICES_PATH: $FCI_BUILD_DIR/app/google-services.json
     triggering:
       events:
         - push
@@ -18,6 +21,10 @@ workflows:
           source: true
       cancel_previous_builds: false
     scripts:
+      - &setup_google_services_file
+          name: Setup google sevices file
+          script: |
+            echo $GP_SERVICES_ENCRYPTED > $GP_SERVICES_PATH
       - &download_translations
         name: Download translations
         script: |
