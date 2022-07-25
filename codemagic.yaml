@@ -24,7 +24,7 @@ workflows:
           echo "Remove current translations"
           rm $FCI_BUILD_DIR/common/resources/src/main/res/values/strings.xml
           echo "Download EN translations from Loco and save as strings.xml"
-          curl "https://localise.biz/api/export/locale/en-GB.xml?format=android&key=$PERSONALNOTES_LOCO_KEY" > $FCI_BUILD_DIR/common/resources/src/main/res/values/strings.xml
+          curl "https://localise.biz/api/export/locale/en-GB.xml?format=android&key=$PERSONALNOTES_LOCO_KEY" > $FCI_BUILD_DIR/app/src/main/res/values/strings.xml
       - name: Build debug Android app
         script: ./gradlew assembleDebug
       - name: Test debug Android app
