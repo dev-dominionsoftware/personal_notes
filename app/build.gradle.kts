@@ -43,6 +43,8 @@ dependencies {
     implementation(Deps.appCompat)
     implementation(Deps.material)
     implementation(Deps.constraintLayout)
+    implementation(Deps.logging)
+
     testImplementation(TestDeps.junit)
     androidTestImplementation(TestDeps.androidExtJunit)
     androidTestImplementation(TestDeps.espresso)
