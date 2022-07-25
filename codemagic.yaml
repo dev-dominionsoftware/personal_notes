@@ -24,7 +24,7 @@ workflows:
       - &setup_google_services_file
           name: Setup google sevices file
           script: |
-            echo $PERSONALNOTES_GOOGLE_PLAY_SERVICES > GOOGLE_SERVICES_PATH
+            echo $PERSONALNOTES_GOOGLE_PLAY_SERVICES > $GOOGLE_SERVICES_PATH
       - &download_translations
         name: Download translations
         script: |
