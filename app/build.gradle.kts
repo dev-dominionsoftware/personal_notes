@@ -66,6 +66,13 @@ dependencies {
     kapt(Deps.DB.roomCompiler)
     implementation(Deps.DB.roomKtx)
 
+    // Coroutines
+    implementation(Deps.Coroutines.core)
+    implementation(Deps.Coroutines.android)
+
+    // Lifecycle
+    implementation(Deps.Lifecycle.viewModelKtx)
+
     // Tests
     testImplementation(TestDeps.junit)
     androidTestImplementation(TestDeps.androidExtJunit)

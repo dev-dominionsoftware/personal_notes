@@ -29,7 +29,7 @@ object NotesDatabaseModule {
     ): NotesDatabase {
         return if (BuildConfig.DEBUG) {
             Room.databaseBuilder(appContext, NotesDatabase::class.java, databaseName)
-                .createFromAsset("/database/personal_notes.db")
+                .createFromAsset("database/personal_notes.db")
                 .build()
         } else {
             Room.databaseBuilder(appContext, NotesDatabase::class.java, databaseName).build()

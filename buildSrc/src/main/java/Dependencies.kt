@@ -7,6 +7,16 @@ object Deps {
     const val logging = "com.jakewharton.timber:timber:${Versions.timber}"
     const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragment}"
 
+    object Coroutines {
+        const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+        const val android =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+    }
+
+    object Lifecycle {
+        const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+    }
+
     object Firebase {
         const val bom = "com.google.firebase:firebase-bom:${Versions.firebaseBom}"
         const val analyticsKtx = "com.google.firebase:firebase-analytics-ktx"
