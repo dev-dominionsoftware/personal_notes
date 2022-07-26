@@ -3,6 +3,8 @@ plugins {
     id(Plugins.kotlinAndroid)
     id(Plugins.googleServices)
     id(Plugins.firebaseCrashlytics)
+    kotlin(Plugins.kapt)
+    id(Plugins.hilt)
 }
 
 android {
@@ -53,8 +55,16 @@ dependencies {
     implementation(Deps.firebaseAnalyticsKtx)
     implementation(Deps.firebaseCrashlyticsKtx)
 
+    // Hilt
+    implementation(Deps.hilt)
+    kapt(Deps.hiltCompiler)
+
     // Tests
     testImplementation(TestDeps.junit)
     androidTestImplementation(TestDeps.androidExtJunit)
     androidTestImplementation(TestDeps.espresso)
+}
+
+kapt {
+    correctErrorTypes = true
 }

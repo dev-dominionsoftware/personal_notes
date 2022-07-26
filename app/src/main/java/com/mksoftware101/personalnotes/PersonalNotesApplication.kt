@@ -1,8 +1,10 @@
 package com.mksoftware101.personalnotes
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
+@HiltAndroidApp
 class PersonalNotesApplication : Application() {
 
     override fun onCreate() {

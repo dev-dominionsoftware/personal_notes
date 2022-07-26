@@ -5,6 +5,7 @@ object Versions {
     const val constraintLayout = "2.1.4"
     const val timber = "4.7.1"
     const val firebaseBom = "30.3.0"
+    const val hilt = "2.38.1"
 }
 
 object TestVersions {

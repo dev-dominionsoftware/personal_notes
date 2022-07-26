@@ -8,6 +8,8 @@ object Deps {
     const val firebaseBom = "com.google.firebase:firebase-bom:${Versions.firebaseBom}"
     const val firebaseAnalyticsKtx = "com.google.firebase:firebase-analytics-ktx"
     const val firebaseCrashlyticsKtx = "com.google.firebase:firebase-crashlytics-ktx"
+    const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
+    const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
 }
 
 object TestDeps {
