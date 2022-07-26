@@ -51,13 +51,13 @@ dependencies {
     implementation(Deps.logging)
 
     // Firebase
-    implementation(platform(Deps.firebaseBom))
-    implementation(Deps.firebaseAnalyticsKtx)
-    implementation(Deps.firebaseCrashlyticsKtx)
+    implementation(platform(Deps.Firebase.bom))
+    implementation(Deps.Firebase.analyticsKtx)
+    implementation(Deps.Firebase.crashlyticsKtx)
 
     // Hilt
-    implementation(Deps.hilt)
-    kapt(Deps.hiltCompiler)
+    implementation(Deps.DI.hilt)
+    kapt(Deps.DI.hiltCompiler)
 
     // Tests
     testImplementation(TestDeps.junit)
