@@ -1,21 +1,22 @@
 package com.mksoftware101.personalnotes.data.db
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {
     @Query("SELECT * FROM note_table")
-    fun getAllNotes(): List<Note>
+    fun getNoteEntityList(): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM note_table WHERE id = :id")
-    fun getNoteBy(id: Long): Note
+    suspend fun getNoteBy(id: Long): NoteEntity
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insert(vararg note: Note)
+    suspend fun insert(vararg note: NoteEntity)
 
     @Delete
-    fun delete(note: Note)
+    suspend fun delete(note: NoteEntity)
 
     @Update
-    fun update(vararg note: Note)
+    suspend fun update(vararg noteEntity: NoteEntity)
 }
