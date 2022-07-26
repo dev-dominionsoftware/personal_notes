@@ -4,10 +4,10 @@ import androidx.room.*
 
 @Dao
 interface NoteDao {
-    @Query("SELECT * FROM note")
+    @Query("SELECT * FROM note_table")
     fun getAllNotes(): List<Note>
 
-    @Query("SELECT * FROM note WHERE id = :id")
+    @Query("SELECT * FROM note_table WHERE id = :id")
     fun getNoteBy(id: Long): Note
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
