@@ -46,6 +46,7 @@ dependencies {
     implementation(Deps.appCompat)
     implementation(Deps.material)
     implementation(Deps.constraintLayout)
+    implementation(Deps.fragmentKtx)
 
     // Logging
     implementation(Deps.logging)

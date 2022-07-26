@@ -9,6 +9,7 @@ object Versions {
     const val firebaseBom = "30.3.0"
     const val hilt = "2.38.1"
     const val room = "2.4.2"
+    const val fragment = "1.4.1"
 }
 
 object TestVersions {

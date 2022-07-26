@@ -5,6 +5,7 @@ object Deps {
     const val constraintLayout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val logging = "com.jakewharton.timber:timber:${Versions.timber}"
+    const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragment}"
 
     object Firebase {
         const val bom = "com.google.firebase:firebase-bom:${Versions.firebaseBom}"
