@@ -8,6 +8,7 @@ object Versions {
     const val timber = "4.7.1"
     const val firebaseBom = "30.3.0"
     const val hilt = "2.38.1"
+    const val room = "2.4.2"
 }
 
 object TestVersions {

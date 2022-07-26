@@ -16,6 +16,12 @@ object Deps {
         const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
     }
+
+    object DB {
+        const val room = "androidx.room:room-runtime:${Versions.room}"
+        const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+        const val roomKtx = "androidx.room:room-ktx::${Versions.room}"
+    }
 }
 
 object TestDeps {

@@ -59,6 +59,12 @@ dependencies {
     implementation(Deps.DI.hilt)
     kapt(Deps.DI.hiltCompiler)
 
+    // DB
+    implementation(Deps.DB.room)
+    annotationProcessor(Deps.DB.roomCompiler)
+    kapt(Deps.DB.roomCompiler)
+    implementation(Deps.DB.roomKtx)
+
     // Tests
     testImplementation(TestDeps.junit)
     androidTestImplementation(TestDeps.androidExtJunit)
