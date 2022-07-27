@@ -7,6 +7,7 @@ import com.mksoftware101.personalnotes.BR
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.domain.GetAllNotesUseCase
 import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemViewModel
+import com.mksoftware101.personalnotes.ui.noteslist.item.OnNotesListItemClickListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.tatarka.bindingcollectionadapter2.ItemBinding
@@ -17,9 +18,16 @@ import javax.inject.Inject
 class NotesListViewModel
 @Inject constructor(val getAllNotesUseCase: GetAllNotesUseCase) : ViewModel() {
 
+    val listener = object : OnNotesListItemClickListener {
+        override fun onItemClick(item: NotesListItemViewModel) {
+            Timber.d("[d] clicked id=${item.title}")
+        }
+    }
+
     val items = ObservableArrayList<NotesListItemViewModel>()
     val itemBinding =
         ItemBinding.of<NotesListItemViewModel>(BR.viewModel, R.layout.view_noteslist_item)
+            .bindExtra(BR.listener, listener)
 
     fun getAllNotes() {
         viewModelScope.launch {

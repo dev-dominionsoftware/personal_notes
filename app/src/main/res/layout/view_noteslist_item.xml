@@ -8,11 +8,18 @@
         <variable
             name="viewModel"
             type="com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemViewModel" />
+
+        <variable
+            name="listener"
+            type="com.mksoftware101.personalnotes.ui.noteslist.item.OnNotesListItemClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{()->listener.onItemClick(viewModel)}">
 
         <TextView
             android:id="@+id/title"
