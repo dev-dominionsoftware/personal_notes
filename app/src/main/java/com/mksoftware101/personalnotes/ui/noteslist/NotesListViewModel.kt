@@ -18,10 +18,8 @@ import javax.inject.Inject
 class NotesListViewModel
 @Inject constructor(val getAllNotesUseCase: GetAllNotesUseCase) : ViewModel() {
 
-    val listener = object : OnNotesListItemClickListener {
-        override fun onItemClick(item: NotesListItemViewModel) {
-            Timber.d("[d] clicked id=${item.title}")
-        }
+    val listener = OnNotesListItemClickListener { item ->
+        Timber.d("[d] clicked id=${item.title}")
     }
 
     val items = ObservableArrayList<NotesListItemViewModel>()
