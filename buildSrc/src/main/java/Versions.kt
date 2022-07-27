@@ -13,6 +13,7 @@ object Versions {
     const val coroutines = "1.6.1"
     const val lifecycle = "2.4.1"
     const val navigation = "2.5.0"
+    const val bindingCollectionAdapter = "4.0.0"
 }
 
 object TestVersions {

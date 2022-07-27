@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="listPadding_12">12dp</dimen>
+    <dimen name="listItemTextSize_22">22sp</dimen>
+    <dimen name="itemListPadding_16">16dp</dimen>
+</resources>

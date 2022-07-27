@@ -78,6 +78,10 @@ dependencies {
     implementation(Deps.Navigation.fragmentKtx)
     implementation(Deps.Navigation.uiKtx)
 
+    // Binding collection adapter
+    implementation(Deps.BindingCollectionAdapter.core)
+    implementation(Deps.BindingCollectionAdapter.recyclerView)
+
     // Tests
     testImplementation(TestDeps.junit)
     androidTestImplementation(TestDeps.androidExtJunit)

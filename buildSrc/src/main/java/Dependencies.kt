@@ -7,6 +7,13 @@ object Deps {
     const val logging = "com.jakewharton.timber:timber:${Versions.timber}"
     const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragment}"
 
+    object BindingCollectionAdapter {
+        const val core =
+            "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:${Versions.bindingCollectionAdapter}"
+        const val recyclerView =
+            "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:${Versions.bindingCollectionAdapter}"
+    }
+
     object Navigation {
         const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
         const val uiKtx = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
