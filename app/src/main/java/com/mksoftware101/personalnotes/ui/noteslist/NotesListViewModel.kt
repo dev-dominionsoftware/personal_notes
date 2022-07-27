@@ -19,6 +19,10 @@ import javax.inject.Inject
 class NotesListViewModel
 @Inject constructor(val getAllNotesUseCase: GetAllNotesUseCase) : ViewModel() {
 
+    init {
+        getAllNotes()
+    }
+
     val listener = OnNotesListItemClickListener { item ->
         Timber.d("[d] clicked id=${item.title}")
     }
@@ -47,7 +51,6 @@ class NotesListViewModel
     fun getAllNotes() {
         viewModelScope.launch {
             getAllNotesUseCase.run().collect { notesList ->
-                Timber.d("[d] size=${notesList.size}, notes=$notesList")
                 val newItems = notesList.map { NotesListItemViewModel(it.Id, it.title) }
                 items.update(newItems)
             }
