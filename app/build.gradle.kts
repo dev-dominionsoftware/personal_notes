@@ -3,6 +3,9 @@ plugins {
     id(Plugins.kotlinAndroid)
     id(Plugins.googleServices)
     id(Plugins.firebaseCrashlytics)
+    kotlin(Plugins.kapt)
+    id(Plugins.hilt)
+    id(Plugins.navigation)
 }
 
 android {
@@ -44,17 +47,47 @@ dependencies {
     implementation(Deps.appCompat)
     implementation(Deps.material)
     implementation(Deps.constraintLayout)
+    implementation(Deps.fragmentKtx)
 
     // Logging
     implementation(Deps.logging)
 
     // Firebase
-    implementation(platform(Deps.firebaseBom))
-    implementation(Deps.firebaseAnalyticsKtx)
-    implementation(Deps.firebaseCrashlyticsKtx)
+    implementation(platform(Deps.Firebase.bom))
+    implementation(Deps.Firebase.analyticsKtx)
+    implementation(Deps.Firebase.crashlyticsKtx)
+
+    // Hilt
+    implementation(Deps.DI.hilt)
+    kapt(Deps.DI.hiltCompiler)
+
+    // DB
+    implementation(Deps.DB.room)
+    annotationProcessor(Deps.DB.roomCompiler)
+    kapt(Deps.DB.roomCompiler)
+    implementation(Deps.DB.roomKtx)
+
+    // Coroutines
+    implementation(Deps.Coroutines.core)
+    implementation(Deps.Coroutines.android)
+
+    // Lifecycle
+    implementation(Deps.Lifecycle.viewModelKtx)
+
+    // Navigation
+    implementation(Deps.Navigation.fragmentKtx)
+    implementation(Deps.Navigation.uiKtx)
+
+    // Binding collection adapter
+    implementation(Deps.BindingCollectionAdapter.core)
+    implementation(Deps.BindingCollectionAdapter.recyclerView)
 
     // Tests
     testImplementation(TestDeps.junit)
     androidTestImplementation(TestDeps.androidExtJunit)
     androidTestImplementation(TestDeps.espresso)
+}
+
+kapt {
+    correctErrorTypes = true
 }
