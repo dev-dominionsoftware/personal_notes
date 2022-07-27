@@ -12,6 +12,7 @@ object Versions {
     const val fragment = "1.4.1"
     const val coroutines = "1.6.1"
     const val lifecycle = "2.4.1"
+    const val navigation = "2.5.0"
 }
 
 object TestVersions {

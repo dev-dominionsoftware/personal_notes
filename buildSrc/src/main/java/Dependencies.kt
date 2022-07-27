@@ -7,6 +7,11 @@ object Deps {
     const val logging = "com.jakewharton.timber:timber:${Versions.timber}"
     const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragment}"
 
+    object Navigation {
+        const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+        const val uiKtx = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+    }
+
     object Coroutines {
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
         const val android =
@@ -46,4 +51,6 @@ object BuildScriptDeps {
     const val firebaseCrashlyticsGradle =
         "com.google.firebase:firebase-crashlytics-gradle:${Versions.firebaseCrashlyticsGradle}"
     const val hiltAndroidGradle = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
+    const val navigationSafeArgs =
+        "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
 }

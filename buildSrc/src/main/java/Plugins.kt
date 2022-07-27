@@ -5,4 +5,5 @@ object Plugins {
     const val firebaseCrashlytics = "com.google.firebase.crashlytics"
     const val kapt = "kapt"
     const val hilt = "dagger.hilt.android.plugin"
+    const val navigation = "androidx.navigation.safeargs.kotlin"
 }

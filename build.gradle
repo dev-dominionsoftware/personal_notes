@@ -4,6 +4,7 @@ buildscript {
         classpath(BuildScriptDeps.googleServices)
         classpath(BuildScriptDeps.firebaseCrashlyticsGradle)
         classpath(BuildScriptDeps.hiltAndroidGradle)
+        classpath(BuildScriptDeps.navigationSafeArgs)
     }
 }
 

@@ -5,6 +5,7 @@ plugins {
     id(Plugins.firebaseCrashlytics)
     kotlin(Plugins.kapt)
     id(Plugins.hilt)
+    id(Plugins.navigation)
 }
 
 android {
@@ -72,6 +73,10 @@ dependencies {
 
     // Lifecycle
     implementation(Deps.Lifecycle.viewModelKtx)
+
+    // Navigation
+    implementation(Deps.Navigation.fragmentKtx)
+    implementation(Deps.Navigation.uiKtx)
 
     // Tests
     testImplementation(TestDeps.junit)
