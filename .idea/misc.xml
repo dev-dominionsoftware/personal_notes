@@ -6,7 +6,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5494791666666666" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_note_details.xml" value="0.5635416666666667" />
-        <entry key="app/src/main/res/layout/fragment_noteslist.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_noteslist.xml" value="0.5" />
         <entry key="app/src/main/res/layout/view_noteslist_item.xml" value="0.5523632993512512" />
       </map>
     </option>

@@ -42,6 +42,9 @@ class NotesListFragment : Fragment() {
         if (state.isItemClicked) {
             openDetailsScreen(state.itemClickedId)
         }
+        if (state.isAddNewNoteClicked) {
+            openDetailsScreen(itemId = null)
+        }
     }
 
     private fun openDetailsScreen(itemId: Long?) {

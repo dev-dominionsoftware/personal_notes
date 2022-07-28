@@ -3,4 +3,5 @@
     <string name="noteDetailsTitleHint">Title</string>
     <string name="noteDetailsDataHint">Note</string>
     <string name="noteDetailsSaveButton">Save</string>
+    <string name="notesListAddNewNoteContentDescription">Add new note</string>
 </resources>

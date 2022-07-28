@@ -67,6 +67,10 @@ class NotesListViewModel
         }
     }
 
+    fun OnAddNewNoteClick() {
+        reduce(NotesListPartialState.OnAddNewNoteClicked)
+    }
+
     private fun reduce(partialState: NotesListPartialState) {
         val currentState = _state.value ?: NotesListState.initialize()
         when (partialState) {
@@ -76,6 +80,9 @@ class NotesListViewModel
             is NotesListPartialState.OnItemClicked -> {
                 _state.value =
                     currentState.copy(isItemClicked = true, itemClickedId = partialState.itemId)
+            }
+            is NotesListPartialState.OnAddNewNoteClicked -> {
+                _state.value = NotesListState.initialize().copy(isAddNewNoteClicked = true)
             }
         }
     }
