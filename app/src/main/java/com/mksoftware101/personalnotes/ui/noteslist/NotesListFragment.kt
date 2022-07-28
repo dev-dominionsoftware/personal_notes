@@ -9,13 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.databinding.FragmentNoteslistBinding
+import com.mksoftware101.personalnotes.ui.noteslist.states.NotesListState
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class NotesListFragment : Fragment() {
 
     val viewModel by viewModels<NotesListViewModel>()
     var binding: FragmentNoteslistBinding? = null
+
+    companion object {
+        const val logTag = "NotesListFragment"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,6 +30,19 @@ class NotesListFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_noteslist, container, false)
         binding?.viewModel = viewModel
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            render(state)
+        }
         return binding?.root
+    }
+
+    private fun render(state: NotesListState) {
+        if (state.isItemClicked) {
+            openDetailsScreen(state.itemClickedId)
+        }
+    }
+
+    private fun openDetailsScreen(itemId: Long?) {
+        Timber.tag(logTag).d("Clicked id=${itemId}")
     }
 }
