@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.databinding.FragmentNoteslistBinding
 import com.mksoftware101.personalnotes.ui.noteslist.states.NotesListState
@@ -44,6 +45,8 @@ class NotesListFragment : Fragment() {
     }
 
     private fun openDetailsScreen(itemId: Long?) {
-        Timber.tag(logTag).d("Clicked id=${itemId}")
+        val navigateAction =
+            NotesListFragmentDirections.actionNotesListFragmentToNoteDetailsFragment(itemId ?: -1)
+        findNavController().navigate(navigateAction)
     }
 }

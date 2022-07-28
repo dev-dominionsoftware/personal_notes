@@ -12,11 +12,20 @@
         tools:layout="@layout/fragment_noteslist">
         <action
             android:id="@+id/action_notesListFragment_to_noteDetailsFragment"
-            app:destination="@id/noteDetailsFragment" />
+            app:destination="@id/noteDetailsFragment" >
+            <argument
+                android:name="itemId"
+                android:defaultValue="-1L" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/noteDetailsFragment"
         android:name="com.mksoftware101.personalnotes.ui.notedetails.NoteDetailsFragment"
         android:label="NoteDetailsFragment"
-        tools:layout="@layout/fragment_note_details" />
+        tools:layout="@layout/fragment_note_details" >
+        <argument
+            android:name="itemId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
 </navigation>
