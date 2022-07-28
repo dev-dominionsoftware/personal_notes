@@ -33,6 +33,7 @@ class NotesListFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner) { state ->
             render(state)
         }
+        viewModel.initialize()
         return binding?.root
     }
 

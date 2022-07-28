@@ -54,6 +54,10 @@ class NotesListViewModel
         ItemBinding.of<NotesListItemViewModel>(BR.viewModel, R.layout.view_noteslist_item)
             .bindExtra(BR.listener, listener)
 
+    fun initialize() {
+        reduce(NotesListPartialState.Init)
+    }
+
     fun getAllNotes() {
         viewModelScope.launch {
             getAllNotesUseCase.run().collect { notesList ->
@@ -67,7 +71,7 @@ class NotesListViewModel
         val currentState = _state.value ?: NotesListState.initialize()
         when (partialState) {
             is NotesListPartialState.Init -> {
-
+                _state.value = NotesListState.initialize()
             }
             is NotesListPartialState.OnItemClicked -> {
                 _state.value =
