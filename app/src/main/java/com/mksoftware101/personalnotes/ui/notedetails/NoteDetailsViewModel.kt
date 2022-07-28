@@ -1,6 +1,8 @@
 package com.mksoftware101.personalnotes.ui.notedetails
 
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mksoftware101.personalnotes.domain.DeleteNoteUseCase
@@ -24,6 +26,9 @@ class NoteDetailsViewModel
 
     val titleObservable = ObservableField("")
     val noteObservable = ObservableField("")
+
+    private val _state = MutableLiveData<NoteDetailsState>()
+    val state: LiveData<NoteDetailsState> = _state
 
     private var note: Note? = null
 
@@ -50,6 +55,7 @@ class NoteDetailsViewModel
                 if (note == null) {
                     val note = Note(-1, titleObservable.get() ?: "", noteObservable.get() ?: "")
                     insertNoteUseCase.run(note)
+                    _state.value = NoteDetailsState.OperationDoneSuccessfully
                 } else {
                     note?.let { note ->
                         updateNoteUseCase.run(
@@ -58,6 +64,7 @@ class NoteDetailsViewModel
                                 data = noteObservable.get() ?: ""
                             )
                         )
+                        _state.value = NoteDetailsState.OperationDoneSuccessfully
                     }
                 }
             } catch (e: Exception) {
@@ -71,6 +78,7 @@ class NoteDetailsViewModel
             try {
                 note?.let { note ->
                     deleteNoteUseCase.run(note)
+                    _state.value = NoteDetailsState.OperationDoneSuccessfully
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

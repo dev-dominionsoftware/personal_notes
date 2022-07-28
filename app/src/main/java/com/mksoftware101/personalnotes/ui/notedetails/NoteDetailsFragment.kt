@@ -1,7 +1,6 @@
 package com.mksoftware101.personalnotes.ui.notedetails
 
 import android.os.Bundle
-import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.databinding.FragmentNoteDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class NoteDetailsFragment : Fragment() {
@@ -58,6 +56,12 @@ class NoteDetailsFragment : Fragment() {
                     true
                 }
                 else -> false
+            }
+        }
+
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            if (state == NoteDetailsState.OperationDoneSuccessfully) {
+                findNavController().popBackStack()
             }
         }
     }
