@@ -30,10 +30,10 @@ class NoteDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Timber.tag(logTag).d("args.itemId=${args.itemId}")
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_note_details, container, false)
         binding?.viewModel = viewModel
+        viewModel.getNoteBy(args.itemId)
         return binding?.root
     }
 }
