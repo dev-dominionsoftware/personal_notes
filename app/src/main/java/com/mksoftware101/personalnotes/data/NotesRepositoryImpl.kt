@@ -24,6 +24,6 @@ class NotesRepositoryImpl @Inject constructor(private val noteDao: NoteDao) : No
     }
 
     override suspend fun delete(note: Note) {
-        TODO("Not yet implemented")
+        noteDao.delete(note.toEntity())
     }
 }

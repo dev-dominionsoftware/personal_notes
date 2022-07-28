@@ -1,12 +1,14 @@
 package com.mksoftware101.personalnotes.ui.notedetails
 
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.databinding.FragmentNoteDetailsBinding
@@ -35,5 +37,28 @@ class NoteDetailsFragment : Fragment() {
         binding?.viewModel = viewModel
         viewModel.getNoteBy(args.itemId)
         return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (args.itemId == -1L) {
+            binding?.noteDetailsTopAppBar?.setTitle(R.string.noteDetailsTitleCreate)
+        } else {
+            binding?.noteDetailsTopAppBar?.setTitle(R.string.noteDetailsTitleEdit)
+        }
+
+        binding?.noteDetailsTopAppBar?.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding?.noteDetailsTopAppBar?.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.noteDetailsMenuDeleteNote -> {
+                    viewModel.deleteNote()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 }
