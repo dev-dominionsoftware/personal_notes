@@ -27,7 +27,8 @@
                 android:id="@+id/noteTitleEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionDone" />
+                android:imeOptions="actionDone"
+                android:text="@={viewModel.titleObservable}" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -53,7 +54,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:imeOptions="actionDone"
-                    android:inputType="textMultiLine" />
+                    android:inputType="textMultiLine"
+                    android:text="@={viewModel.noteObservable}" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </ScrollView>
