@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mksoftware101.personalnotes.domain.GetNoteByIdUseCase
+import com.mksoftware101.personalnotes.domain.InsertNoteUseCase
 import com.mksoftware101.personalnotes.domain.UpdateNoteUseCase
 import com.mksoftware101.personalnotes.domain.model.Note
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 class NoteDetailsViewModel
 @Inject constructor(
     private val getNoteByIdUseCase: GetNoteByIdUseCase,
-    private val updateNoteUseCase: UpdateNoteUseCase
+    private val updateNoteUseCase: UpdateNoteUseCase,
+    private val insertNoteUseCase: InsertNoteUseCase
 ) : ViewModel() {
 
     val titleObservable = ObservableField("")
@@ -44,7 +46,8 @@ class NoteDetailsViewModel
         viewModelScope.launch {
             try {
                 if (note == null) {
-                    // ToDo Do insert
+                    val note = Note(-1, titleObservable.get() ?: "", noteObservable.get() ?: "")
+                    insertNoteUseCase.run(note)
                 } else {
                     note?.let { note ->
                         updateNoteUseCase.run(

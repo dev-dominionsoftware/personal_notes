@@ -16,7 +16,7 @@ class NotesRepositoryImpl @Inject constructor(private val noteDao: NoteDao) : No
     }
 
     override suspend fun insert(note: Note) {
-        TODO("Not yet implemented")
+        noteDao.insert(note.toAutoincrementEntity())
     }
 
     override suspend fun update(note: Note) {
