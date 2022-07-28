@@ -11,15 +11,19 @@ class NotesRepositoryImpl @Inject constructor(private val noteDao: NoteDao) : No
         return noteDao.getNoteEntityList().toNoteList()
     }
 
+    override suspend fun getNoteBy(Id: Long): Note {
+        return noteDao.getNoteBy(Id).toDomainNote()
+    }
+
     override suspend fun insert(note: Note) {
-        TODO("Not yet implemented")
+        noteDao.insert(note.toAutoincrementEntity())
     }
 
     override suspend fun update(note: Note) {
-        TODO("Not yet implemented")
+        noteDao.update(note.toEntity())
     }
 
     override suspend fun delete(note: Note) {
-        TODO("Not yet implemented")
+        noteDao.delete(note.toEntity())
     }
 }

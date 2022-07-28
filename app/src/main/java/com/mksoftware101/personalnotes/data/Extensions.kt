@@ -12,3 +12,9 @@ fun Flow<List<NoteEntity>>.toNoteList(): Flow<List<Note>> {
         }
     }
 }
+
+fun NoteEntity.toDomainNote() = Note(id, title, data)
+
+fun Note.toEntity() = NoteEntity(Id, title, data)
+
+fun Note.toAutoincrementEntity() = NoteEntity(title = title, data = data)
