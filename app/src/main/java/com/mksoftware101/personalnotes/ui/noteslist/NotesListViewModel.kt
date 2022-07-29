@@ -20,7 +20,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotesListViewModel
-@Inject constructor(val getAllNotesUseCase: GetAllNotesUseCase) : ViewModel() {
+@Inject constructor(
+    private val getAllNotesUseCase: GetAllNotesUseCase,
+    private val notesListItemFactory: NotesListItemFactory
+) : ViewModel() {
 
     init {
         getAllNotes()
@@ -61,8 +64,8 @@ class NotesListViewModel
     fun getAllNotes() {
         viewModelScope.launch {
             getAllNotesUseCase.run().collect { notesList ->
-                val newItems = notesList.map { NotesListItemViewModel(it.Id, it.title) }
-                items.update(newItems)
+                val itemsList = notesListItemFactory.assemble(notesList)
+                items.update(itemsList)
             }
         }
     }
