@@ -1,5 +1,7 @@
 package com.mksoftware101.personalnotes.ui.notedetails
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +14,7 @@ import com.mksoftware101.personalnotes.domain.UpdateNoteUseCase
 import com.mksoftware101.personalnotes.domain.model.Note
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -49,11 +51,12 @@ class NoteDetailsViewModel
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun onSaveClick() {
         viewModelScope.launch {
             try {
                 if (note == null) {
-                    val note = Note(-1, titleObservable.get() ?: "", noteObservable.get() ?: "")
+                    val note = Note(-1, titleObservable.get() ?: "", noteObservable.get() ?: "", LocalDateTime.now(), false)
                     insertNoteUseCase.run(note)
                     _state.value = NoteDetailsState.OperationDoneSuccessfully
                 } else {
