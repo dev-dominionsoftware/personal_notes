@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemDateViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/listPadding_12"
+            android:paddingTop="32dp"
+            android:paddingBottom="8dp"
+            android:text="@{viewModel.date}"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            tools:text="29 July 2022" />
+
+    </LinearLayout>
+</layout>
