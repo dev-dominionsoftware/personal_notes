@@ -10,5 +10,5 @@ data class NoteEntity(
     val title: String,
     val data: String?,
     @ColumnInfo(name = "creation_date") val creationDate: String,
-    @ColumnInfo(name = "is_favouritie") val isFavourite: Boolean,
+    @ColumnInfo(name = "is_favourite") val isFavourite: Boolean,
 )

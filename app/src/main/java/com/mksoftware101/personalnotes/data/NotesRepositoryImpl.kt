@@ -10,41 +10,41 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class NotesRepositoryImpl @Inject constructor(
-    private val noteDao: NoteDao,
+    private val dao: NoteDao,
     private val converter: Converter
 ) : NotesRepository {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getAllNotes(): Flow<List<Note>> {
         return converter.convert(
-            noteDao.getNoteEntityList()
+            dao.getNoteEntityList()
         )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun getNoteBy(Id: Long): Note {
         return converter.convert(
-            noteDao.getNoteBy(Id)
+            dao.getNoteBy(Id)
         )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun insert(note: Note) {
-        noteDao.insert(
+        dao.insert(
             converter.convert(note, autoIncrement = true)
         )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun update(note: Note) {
-        noteDao.update(
+        dao.update(
             converter.convert(note)
         )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun delete(note: Note) {
-        noteDao.delete(
+        dao.delete(
             converter.convert(note)
         )
     }
