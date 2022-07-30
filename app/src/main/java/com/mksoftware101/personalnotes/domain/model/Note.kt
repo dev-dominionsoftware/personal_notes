@@ -6,6 +6,6 @@ data class Note(
     val Id: Long,
     val title: String,
     val data: String?,
-    val creationDate: LocalDateTime,
+    val creationDateTime: LocalDateTime,
     val isFavourite: Boolean
 )

@@ -7,10 +7,7 @@ import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemDateViewMo
 import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemViewModel
 import com.mksoftware101.personalnotes.ui.noteslist.item.base.NotesListItemBaseViewModel
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-
-data class Section(val date: String, val list: List<Note>)
 
 class NotesListItemFactory {
 
@@ -18,27 +15,29 @@ class NotesListItemFactory {
     fun assemble(notesList: List<Note>): List<NotesListItemBaseViewModel> {
         val itemsList = mutableListOf<NotesListItemBaseViewModel>()
 
-        val onlyDates = notesList.map {
-            val dateTime = it.creationDate
-            LocalDate.of(dateTime.year, dateTime.month, dateTime.dayOfMonth)
-        }
+        val output = mutableMapOf<String, List<Note>>()
 
-        val noDuplicates = onlyDates.distinct()
+        val onlyDatesWithoutDuplicates =
+            notesList
+                .map { note ->
+                    with(note.creationDateTime) { LocalDate.of(year, month, dayOfMonth) }
+                }
+                .distinct()
 
-        val alltogether = noDuplicates.map { date ->
-            val associatedNotes = notesList.filter {
-                val cd = LocalDate.of(it.creationDate.year, it.creationDate.month, it.creationDate.dayOfMonth)
-                cd == date
+        onlyDatesWithoutDuplicates.map { date ->
+            val associatedNotes = notesList.filter { note ->
+                date == note.creationDateTime.toLocalDate()
             }
-            Section(date.format(DateTimeFormatter.ISO_LOCAL_DATE), associatedNotes)
+            output.put(date.format(DateTimeFormatter.ISO_LOCAL_DATE), associatedNotes)
         }
 
-        alltogether.map { section ->
-            itemsList.add(NotesListItemDateViewModel(section.date))
-            section.list.forEach {
-                itemsList.add(NotesListItemViewModel(it.Id, it.title))
+        output.forEach { (key, values) ->
+            itemsList.add(NotesListItemDateViewModel(key))
+            values.forEach { note ->
+                itemsList.add(NotesListItemViewModel(note.Id, note.title))
             }
         }
+
         return itemsList
     }
 }
