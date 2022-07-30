@@ -14,6 +14,7 @@ object Versions {
     const val lifecycle = "2.4.1"
     const val navigation = "2.5.0"
     const val bindingCollectionAdapter = "4.0.0"
+    const val swipeRefreshLayout = "1.1.0"
 }
 
 object TestVersions {

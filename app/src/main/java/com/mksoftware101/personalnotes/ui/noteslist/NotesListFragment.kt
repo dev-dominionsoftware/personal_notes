@@ -35,6 +35,10 @@ class NotesListFragment : Fragment() {
             render(state)
         }
         viewModel.initialize()
+        binding?.notesSwipeRefreshLayout?.setOnRefreshListener {
+            binding?.notesSwipeRefreshLayout?.isRefreshing = false
+            viewModel.getAllNotes()
+        }
         return binding?.root
     }
 
