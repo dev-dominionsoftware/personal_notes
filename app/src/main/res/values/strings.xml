@@ -7,4 +7,5 @@
     <string name="noteDetailsMenuDeleteNoteTitle">Delete</string>
     <string name="noteDetailsTitleCreate">Create a new note</string>
     <string name="noteDetailsTitleEdit">Edit note</string>
+    <string name="today">Today</string>
 </resources>

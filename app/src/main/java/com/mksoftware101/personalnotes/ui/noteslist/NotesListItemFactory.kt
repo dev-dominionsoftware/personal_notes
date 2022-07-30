@@ -6,38 +6,35 @@ import com.mksoftware101.personalnotes.domain.model.Note
 import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemDateViewModel
 import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemViewModel
 import com.mksoftware101.personalnotes.ui.noteslist.item.base.NotesListItemBaseViewModel
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
-class NotesListItemFactory {
+class NotesListItemFactory
+@Inject constructor(private val formatter: NotesListDateSectionFormatter) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun assemble(notesList: List<Note>): List<NotesListItemBaseViewModel> {
-        val itemsList = mutableListOf<NotesListItemBaseViewModel>()
+        val output = mutableListOf<NotesListItemBaseViewModel>()
 
-        val output = mutableMapOf<String, List<Note>>()
-
+        val dateToNotesMap = mutableMapOf<String, List<Note>>()
         val onlyDatesWithoutDuplicates =
             notesList
-                .map { note ->
-                    with(note.creationDateTime) { LocalDate.of(year, month, dayOfMonth) }
-                }
+                .map { note -> note.creationDateTime.toLocalDate() }
                 .distinct()
 
         onlyDatesWithoutDuplicates.map { date ->
             val associatedNotes = notesList.filter { note ->
                 date == note.creationDateTime.toLocalDate()
             }
-            output.put(date.format(DateTimeFormatter.ISO_LOCAL_DATE), associatedNotes)
+            dateToNotesMap.put(formatter.format(date), associatedNotes)
         }
 
-        output.forEach { (key, values) ->
-            itemsList.add(NotesListItemDateViewModel(key))
+        dateToNotesMap.forEach { (key, values) ->
+            output.add(NotesListItemDateViewModel(key))
             values.forEach { note ->
-                itemsList.add(NotesListItemViewModel(note.Id, note.title))
+                output.add(NotesListItemViewModel(note.Id, note.title))
             }
         }
 
-        return itemsList
+        return output
     }
 }
