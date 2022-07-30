@@ -7,7 +7,6 @@ import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.common.Formatter
 import com.mksoftware101.personalnotes.ui.noteslist.NotesListDateSectionFormatter
 import com.mksoftware101.personalnotes.ui.noteslist.NotesListItemFactory
-import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +27,7 @@ class UiModule {
     @Provides
     @Named("localizedTodayText")
     fun provideLocalizedTodayText(@ApplicationContext context: Context) =
-        context.getText(R.string.today).toString()
+        context.getText(R.string.notesListToday).toString()
 
     @Provides
     fun provideNotesListDateSectionFormatter(
