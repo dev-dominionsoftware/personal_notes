@@ -30,17 +30,24 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             tools:context=".ui.noteslist.NotesListFragment">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/notesRecyclerView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:itemBinding="@{viewModel.itemBinding}"
-                app:items="@{viewModel.items}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/notesSwipeRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/notesRecyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:itemBinding="@{viewModel.itemBinding}"
+                    app:items="@{viewModel.items}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

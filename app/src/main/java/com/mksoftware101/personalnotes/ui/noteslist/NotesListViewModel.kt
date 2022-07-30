@@ -20,6 +20,7 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding
 import me.tatarka.bindingcollectionadapter2.OnItemBind
 import me.tatarka.bindingcollectionadapter2.collections.DiffObservableList
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel

@@ -6,6 +6,8 @@ object Deps {
         "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val logging = "com.jakewharton.timber:timber:${Versions.timber}"
     const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragment}"
+    const val swipeRefreshLayout =
+        "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefreshLayout}"
 
     object BindingCollectionAdapter {
         const val core =
