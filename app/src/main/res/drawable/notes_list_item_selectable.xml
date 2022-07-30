@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:enterFadeDuration="150" android:exitFadeDuration="150" android:shape="rectangle">
+    <item android:drawable="@drawable/notes_list_item_selectable_pressed_state_bkg" android:state_pressed="true" />
+    <item android:drawable="@drawable/notes_list_item_selectable_pressed_state_bkg" android:state_focused="true" />
+    <item android:drawable="@drawable/notes_list_item_selectable_default_state_bkg" />
+</selector>
