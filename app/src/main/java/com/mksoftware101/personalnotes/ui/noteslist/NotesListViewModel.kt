@@ -8,19 +8,26 @@ import androidx.recyclerview.widget.DiffUtil
 import com.mksoftware101.personalnotes.BR
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.domain.GetAllNotesUseCase
+import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemDateViewModel
 import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemViewModel
 import com.mksoftware101.personalnotes.ui.noteslist.item.OnNotesListItemClickListener
+import com.mksoftware101.personalnotes.ui.noteslist.item.base.NotesListItemBaseViewModel
 import com.mksoftware101.personalnotes.ui.noteslist.states.NotesListPartialState
 import com.mksoftware101.personalnotes.ui.noteslist.states.NotesListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.tatarka.bindingcollectionadapter2.ItemBinding
+import me.tatarka.bindingcollectionadapter2.OnItemBind
 import me.tatarka.bindingcollectionadapter2.collections.DiffObservableList
+import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
 import javax.inject.Inject
 
 @HiltViewModel
 class NotesListViewModel
-@Inject constructor(val getAllNotesUseCase: GetAllNotesUseCase) : ViewModel() {
+@Inject constructor(
+    private val getAllNotesUseCase: GetAllNotesUseCase,
+    private val notesListItemFactory: NotesListItemFactory
+) : ViewModel() {
 
     init {
         getAllNotes()
@@ -34,25 +41,52 @@ class NotesListViewModel
         reduce(onItemClickedPartialState)
     }
 
-    val items = DiffObservableList(object : DiffUtil.ItemCallback<NotesListItemViewModel>() {
+    val items = DiffObservableList(object : DiffUtil.ItemCallback<NotesListItemBaseViewModel>() {
         override fun areItemsTheSame(
-            oldItem: NotesListItemViewModel,
-            newItem: NotesListItemViewModel
-        ): Boolean {
-            return oldItem.id == newItem.id
-        }
+            oldItem: NotesListItemBaseViewModel,
+            newItem: NotesListItemBaseViewModel
+        ): Boolean =
+            if (oldItem is NotesListItemViewModel && newItem is NotesListItemViewModel) {
+                oldItem.id == newItem.id
+            } else if (oldItem is NotesListItemDateViewModel && newItem is NotesListItemDateViewModel) {
+                oldItem.date == newItem.date
+            } else {
+                false
+            }
+
 
         override fun areContentsTheSame(
-            oldItem: NotesListItemViewModel,
-            newItem: NotesListItemViewModel
-        ): Boolean {
-            return oldItem.title == newItem.title
-        }
+            oldItem: NotesListItemBaseViewModel,
+            newItem: NotesListItemBaseViewModel
+        ): Boolean =
+            if (oldItem is NotesListItemViewModel && newItem is NotesListItemViewModel) {
+                oldItem.title == newItem.title
+            } else if (oldItem is NotesListItemDateViewModel && newItem is NotesListItemDateViewModel) {
+                oldItem.date == newItem.date
+            } else {
+                false
+            }
 
     })
-    val itemBinding =
-        ItemBinding.of<NotesListItemViewModel>(BR.viewModel, R.layout.view_noteslist_item)
-            .bindExtra(BR.listener, listener)
+
+    val itemBinding: OnItemBindClass<NotesListItemBaseViewModel> =
+        OnItemBindClass<NotesListItemBaseViewModel>()
+            .map(
+                NotesListItemDateViewModel::class.java,
+                BR.viewModel,
+                R.layout.view_notes_list_item_date
+            )
+            .map(NotesListItemViewModel::class.java, object : OnItemBind<NotesListItemViewModel> {
+                override fun onItemBind(
+                    itemBinding: ItemBinding<*>,
+                    position: Int,
+                    item: NotesListItemViewModel?
+                ) {
+                    itemBinding.clearExtras().set(BR.viewModel, R.layout.view_noteslist_item)
+                        .bindExtra(BR.listener, listener)
+                }
+
+            })
 
     fun initialize() {
         reduce(NotesListPartialState.Init)
@@ -61,8 +95,8 @@ class NotesListViewModel
     fun getAllNotes() {
         viewModelScope.launch {
             getAllNotesUseCase.run().collect { notesList ->
-                val newItems = notesList.map { NotesListItemViewModel(it.Id, it.title) }
-                items.update(newItems)
+                val itemsList = notesListItemFactory.assemble(notesList)
+                items.update(itemsList)
             }
         }
     }
