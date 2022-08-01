@@ -14,14 +14,8 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textview.MaterialTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/listPadding_12"
-            android:paddingTop="32dp"
-            android:paddingBottom="8dp"
+            style="@style/ListItem.NotesListItem.Section"
             android:text="@{viewModel.date}"
-            android:textColor="@color/black"
-            android:textStyle="bold"
             tools:text="29 July 2022" />
 
     </LinearLayout>
