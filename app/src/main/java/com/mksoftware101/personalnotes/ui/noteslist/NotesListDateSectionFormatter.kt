@@ -9,7 +9,7 @@ class NotesListDateSectionFormatter @Inject constructor(
     private val today: LocalDate,
     private val localizedTodayText: String
 ) {
-    fun format(date: LocalDate) =
+    fun format(date: LocalDate) : String =
         if (date.isEqual(today)) {
             localizedTodayText
         } else {

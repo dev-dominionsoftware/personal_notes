@@ -117,7 +117,12 @@ class NotesListViewModel
             }
             is NotesListPartialState.Loading -> {
                 _state.value =
-                    currentState.copy(isLoading = partialState.isLoading, false, null, false)
+                    currentState.copy(
+                        isLoading = partialState.isLoading,
+                        isItemClicked = false,
+                        itemClickedId = null,
+                        isAddNewNoteClicked = false
+                    )
             }
             is NotesListPartialState.OnItemClick -> {
                 _state.value =
