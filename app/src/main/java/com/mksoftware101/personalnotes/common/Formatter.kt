@@ -11,13 +11,10 @@ class Formatter @Inject constructor() {
         const val descriptivePattern = "dd MMMM yyyy"
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun getISODateFormater() = DateTimeFormatter.ISO_LOCAL_DATE
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun getISODateTimeFormatter() = DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun getDescriptiveFormatter(): DateTimeFormatter =
         DateTimeFormatter.ofPattern(descriptivePattern)
 }

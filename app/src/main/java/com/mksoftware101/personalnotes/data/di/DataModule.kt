@@ -16,7 +16,6 @@ import java.time.format.DateTimeFormatter
 @InstallIn(ViewModelComponent::class)
 object DataModule {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @Provides
     fun provideDateTimeFormatter() = DateTimeFormatter.ISO_LOCAL_DATE_TIME
 

@@ -1,8 +1,6 @@
 package com.mksoftware101.personalnotes.ui.di
 
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.common.Formatter
 import com.mksoftware101.personalnotes.ui.noteslist.NotesListDateSectionFormatter
@@ -19,10 +17,9 @@ import javax.inject.Named
 @InstallIn(ViewModelComponent::class)
 class UiModule {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @Provides
     @Named("today")
-    fun provideToday() = LocalDate.now()
+    fun provideToday(): LocalDate = LocalDate.now()
 
     @Provides
     @Named("localizedTodayText")

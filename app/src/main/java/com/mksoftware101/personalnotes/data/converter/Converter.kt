@@ -1,7 +1,5 @@
 package com.mksoftware101.personalnotes.data.converter
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.mksoftware101.personalnotes.data.db.NoteEntity
 import com.mksoftware101.personalnotes.domain.model.Note
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +10,6 @@ import javax.inject.Inject
 
 class Converter @Inject constructor(private val formatter: DateTimeFormatter) {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun convert(entity: NoteEntity): Note = with(entity) {
         Note(
             id,
@@ -23,7 +20,6 @@ class Converter @Inject constructor(private val formatter: DateTimeFormatter) {
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun convert(flowEntities: Flow<List<NoteEntity>>): Flow<List<Note>> {
         return flowEntities.map { notesEntitiesList ->
             notesEntitiesList.map { noteEntity ->
@@ -32,7 +28,6 @@ class Converter @Inject constructor(private val formatter: DateTimeFormatter) {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun convert(note: Note, autoIncrement: Boolean = false): NoteEntity = with(note) {
         if (autoIncrement) {
             NoteEntity(

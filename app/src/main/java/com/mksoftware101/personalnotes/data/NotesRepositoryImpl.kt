@@ -14,35 +14,30 @@ class NotesRepositoryImpl @Inject constructor(
     private val converter: Converter
 ) : NotesRepository {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun getAllNotes(): Flow<List<Note>> {
         return converter.convert(
             dao.getNoteEntityList()
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun getNoteBy(Id: Long): Note {
         return converter.convert(
             dao.getNoteBy(Id)
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun insert(note: Note) {
         dao.insert(
             converter.convert(note, autoIncrement = true)
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun update(note: Note) {
         dao.update(
             converter.convert(note)
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun delete(note: Note) {
         dao.delete(
             converter.convert(note)
