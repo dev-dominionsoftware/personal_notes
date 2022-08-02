@@ -12,17 +12,12 @@ import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.databinding.FragmentNoteslistBinding
 import com.mksoftware101.personalnotes.ui.noteslist.states.NotesListState
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class NotesListFragment : Fragment() {
 
-    val viewModel by viewModels<NotesListViewModel>()
-    var binding: FragmentNoteslistBinding? = null
-
-    companion object {
-        const val logTag = "NotesListFragment"
-    }
+    private val viewModel by viewModels<NotesListViewModel>()
+    private var binding: FragmentNoteslistBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
