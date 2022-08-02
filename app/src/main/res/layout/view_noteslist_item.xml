@@ -16,19 +16,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="@drawable/notes_list_item_selectable"
-        android:onClick="@{()->listener.onItemClick(viewModel)}">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/itemListPadding_16"
+            style="@style/ListItem.NotesListItem"
+            android:onClick="@{()->listener.onItemClick(viewModel)}"
             android:text="@{viewModel.title}"
-            android:textSize="@dimen/listItemTextSize_22"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

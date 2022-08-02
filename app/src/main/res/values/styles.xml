@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ListItem">
+        <item name="android:layout_height">@dimen/notesListItemHeight</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingStart">@dimen/itemListPaddingStartEnd</item>
+        <item name="android:paddingEnd">@dimen/itemListPaddingStartEnd</item>
+    </style>
+
+    <style name="ListItem.NotesListItem">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">@drawable/notes_list_item_selectable</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textSize">@dimen/notesListItemTitleTextSize</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="ListItem.NotesListItem.Section">
+        <item name="android:textSize">@dimen/notesListItemSectionTextSize</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>
