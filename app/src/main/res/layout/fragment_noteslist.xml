@@ -45,7 +45,7 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:itemBinding="@{viewModel.itemBinding}"
-                    app:items="@{viewModel.items}"
+                    app:items="@{viewModel.itemsList}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -59,7 +59,7 @@
             android:layout_marginEnd="@dimen/fabMargin"
             android:layout_marginBottom="@dimen/fabMargin"
             android:contentDescription="@string/notesListAddNewNoteContentDescription"
-            android:onClick="@{() -> viewModel.OnAddNewNoteClick()}"
+            android:onClick="@{() -> viewModel.onAddNewNoteClick()}"
             app:srcCompat="@android:drawable/ic_input_add" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
