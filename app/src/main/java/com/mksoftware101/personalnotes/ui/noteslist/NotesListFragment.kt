@@ -36,12 +36,13 @@ class NotesListFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner) { state -> render(state) }
         viewModel.initialize()
         binding.notesSwipeRefreshLayout.setOnRefreshListener {
-            binding.notesSwipeRefreshLayout.isRefreshing = false
             viewModel.getAllNotes()
         }
     }
 
     private fun render(state: NotesListState) {
+        binding.notesSwipeRefreshLayout.isRefreshing = state.isLoading
+
         if (state.isItemClicked) {
             openDetailsScreen(state.itemClickedId)
         }

@@ -4,4 +4,5 @@ sealed class NotesListPartialState {
     object Init : NotesListPartialState()
     data class OnItemClick(val itemId: Long) : NotesListPartialState()
     object OnAddNewNoteClick : NotesListPartialState()
+    data class Loading(val isLoading : Boolean) : NotesListPartialState()
 }

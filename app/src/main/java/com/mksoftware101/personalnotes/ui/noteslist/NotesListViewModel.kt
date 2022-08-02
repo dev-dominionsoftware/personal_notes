@@ -18,6 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.tatarka.bindingcollectionadapter2.collections.DiffObservableList
 import me.tatarka.bindingcollectionadapter2.itembindings.OnItemBindClass
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,10 +27,6 @@ class NotesListViewModel
     private val getAllNotesUseCase: GetAllNotesUseCase,
     private val notesListItemFactory: NotesListItemFactory
 ) : ViewModel() {
-
-    init {
-        getAllNotes()
-    }
 
     private var _state = MutableLiveData<NotesListState>()
     val state: LiveData<NotesListState> = _state
@@ -81,13 +78,21 @@ class NotesListViewModel
 
     fun initialize() {
         reduce(NotesListPartialState.Init)
+        getAllNotes()
     }
 
     fun getAllNotes() {
         viewModelScope.launch {
-            getAllNotesUseCase.run().collect { notesList ->
-                val itemsList = notesListItemFactory.assemble(notesList)
-                this@NotesListViewModel.itemsList.update(itemsList)
+            try {
+                showLoading()
+                getAllNotesUseCase.run().collect { notesList ->
+                    val itemsList = notesListItemFactory.assemble(notesList)
+                    hideLoading()
+                    this@NotesListViewModel.itemsList.update(itemsList)
+                }
+            } catch (e: Exception) {
+                hideLoading()
+                Timber.e(e)
             }
         }
     }
@@ -96,11 +101,23 @@ class NotesListViewModel
         reduce(NotesListPartialState.OnAddNewNoteClick)
     }
 
+    private fun showLoading() {
+        reduce(NotesListPartialState.Loading(isLoading = true))
+    }
+
+    private fun hideLoading() {
+        reduce(NotesListPartialState.Loading(isLoading = false))
+    }
+
     private fun reduce(partialState: NotesListPartialState) {
         val currentState = _state.value ?: NotesListState.initialize()
         when (partialState) {
             is NotesListPartialState.Init -> {
                 _state.value = NotesListState.initialize()
+            }
+            is NotesListPartialState.Loading -> {
+                _state.value =
+                    currentState.copy(isLoading = partialState.isLoading, false, null, false)
             }
             is NotesListPartialState.OnItemClick -> {
                 _state.value =
