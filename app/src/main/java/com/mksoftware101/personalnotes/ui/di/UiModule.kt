@@ -3,7 +3,7 @@ package com.mksoftware101.personalnotes.ui.di
 import android.content.Context
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.common.Formatter
-import com.mksoftware101.personalnotes.ui.noteslist.NotesListDateSectionFormatter
+import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListDateSectionFormatter
 import com.mksoftware101.personalnotes.ui.noteslist.NotesListItemFactory
 import dagger.Module
 import dagger.Provides

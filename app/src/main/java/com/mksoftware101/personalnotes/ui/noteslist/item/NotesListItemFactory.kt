@@ -1,8 +1,6 @@
-package com.mksoftware101.personalnotes.ui.noteslist
+package com.mksoftware101.personalnotes.ui.noteslist.item
 
 import com.mksoftware101.personalnotes.domain.model.Note
-import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemDateViewModel
-import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemViewModel
 import com.mksoftware101.personalnotes.ui.noteslist.item.base.NotesListItemBaseViewModel
 import javax.inject.Inject
 

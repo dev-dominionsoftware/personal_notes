@@ -9,6 +9,7 @@ import com.mksoftware101.personalnotes.BR
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.domain.GetAllNotesUseCase
 import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemDateViewModel
+import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemFactory
 import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemViewModel
 import com.mksoftware101.personalnotes.ui.noteslist.item.OnNotesListItemClickListener
 import com.mksoftware101.personalnotes.ui.noteslist.item.base.NotesListItemBaseViewModel
