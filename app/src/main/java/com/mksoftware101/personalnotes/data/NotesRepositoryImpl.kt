@@ -1,7 +1,5 @@
 package com.mksoftware101.personalnotes.data
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.mksoftware101.personalnotes.data.converter.Converter
 import com.mksoftware101.personalnotes.data.db.NoteDao
 import com.mksoftware101.personalnotes.domain.NotesRepository
