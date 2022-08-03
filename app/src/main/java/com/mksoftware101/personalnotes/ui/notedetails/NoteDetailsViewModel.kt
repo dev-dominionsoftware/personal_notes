@@ -51,7 +51,6 @@ class NoteDetailsViewModel
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun onSaveClick() {
         viewModelScope.launch {
             try {

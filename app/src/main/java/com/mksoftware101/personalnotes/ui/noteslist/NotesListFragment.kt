@@ -10,39 +10,39 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.databinding.FragmentNoteslistBinding
+import com.mksoftware101.personalnotes.ui.noteslist.NotesListConstants.NOTES_LIST_NO_ITEM_ID
 import com.mksoftware101.personalnotes.ui.noteslist.states.NotesListState
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class NotesListFragment : Fragment() {
 
-    val viewModel by viewModels<NotesListViewModel>()
-    var binding: FragmentNoteslistBinding? = null
-
-    companion object {
-        const val logTag = "NotesListFragment"
-    }
+    private val viewModel by viewModels<NotesListViewModel>()
+    private var _binding: FragmentNoteslistBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_noteslist, container, false)
-        binding?.viewModel = viewModel
-        viewModel.state.observe(viewLifecycleOwner) { state ->
-            render(state)
-        }
+    ): View {
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_noteslist, container, false)
+        setupUI()
+        return binding.root
+    }
+
+    private fun setupUI() {
+        binding.viewModel = viewModel
+        viewModel.state.observe(viewLifecycleOwner) { state -> render(state) }
         viewModel.initialize()
-        binding?.notesSwipeRefreshLayout?.setOnRefreshListener {
-            binding?.notesSwipeRefreshLayout?.isRefreshing = false
+        binding.notesSwipeRefreshLayout.setOnRefreshListener {
             viewModel.getAllNotes()
         }
-        return binding?.root
     }
 
     private fun render(state: NotesListState) {
+        binding.notesSwipeRefreshLayout.isRefreshing = state.isLoading
+
         if (state.isItemClicked) {
             openDetailsScreen(state.itemClickedId)
         }
@@ -53,7 +53,14 @@ class NotesListFragment : Fragment() {
 
     private fun openDetailsScreen(itemId: Long?) {
         val navigateAction =
-            NotesListFragmentDirections.actionNotesListFragmentToNoteDetailsFragment(itemId ?: -1)
+            NotesListFragmentDirections.actionNotesListFragmentToNoteDetailsFragment(
+                itemId ?: NOTES_LIST_NO_ITEM_ID
+            )
         findNavController().navigate(navigateAction)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

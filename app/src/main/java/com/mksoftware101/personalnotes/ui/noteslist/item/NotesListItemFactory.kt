@@ -1,21 +1,18 @@
-package com.mksoftware101.personalnotes.ui.noteslist
+package com.mksoftware101.personalnotes.ui.noteslist.item
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import com.mksoftware101.personalnotes.domain.model.Note
-import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemDateViewModel
-import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemViewModel
+import com.mksoftware101.personalnotes.ui.model.NoteUI
 import com.mksoftware101.personalnotes.ui.noteslist.item.base.NotesListItemBaseViewModel
 import javax.inject.Inject
+
+typealias DateText = String
 
 class NotesListItemFactory
 @Inject constructor(private val formatter: NotesListDateSectionFormatter) {
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun assemble(notesList: List<Note>): List<NotesListItemBaseViewModel> {
+    fun assemble(notesList: List<NoteUI>): List<NotesListItemBaseViewModel> {
         val output = mutableListOf<NotesListItemBaseViewModel>()
 
-        val dateToNotesMap = mutableMapOf<String, List<Note>>()
+        val dateToNotesMap = mutableMapOf<DateText, List<NoteUI>>()
         val onlyDatesWithoutDuplicates =
             notesList
                 .map { note -> note.creationDateTime.toLocalDate() }
@@ -31,7 +28,7 @@ class NotesListItemFactory
         dateToNotesMap.forEach { (key, values) ->
             output.add(NotesListItemDateViewModel(key))
             values.forEach { note ->
-                output.add(NotesListItemViewModel(note.Id, note.title))
+                output.add(NotesListItemViewModel(note.id, note.title))
             }
         }
 
