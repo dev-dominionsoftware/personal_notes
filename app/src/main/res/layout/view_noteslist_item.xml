@@ -15,17 +15,31 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/ListItemClickable"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/notesListItemHeight"
+        android:onClick="@{()->listener.onItemClick(viewModel)}">
+
+        <com.mksoftware101.personalnotes.ui.noteslist.item.thumbnail.LetterInCircle
+            android:id="@+id/letterInCircle"
+            android:layout_width="@dimen/letterInCircleViewSize"
+            android:layout_height="@dimen/letterInCircleViewSize"
+            android:layout_marginStart="@dimen/itemListPaddingStartEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:letter="@{viewModel.letter}" />
 
         <TextView
             android:id="@+id/title"
             style="@style/ListItem.NotesListItem"
-            android:onClick="@{()->listener.onItemClick(viewModel)}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="@{viewModel.title}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/letterInCircle"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Title" />
 

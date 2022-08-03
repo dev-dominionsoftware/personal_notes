@@ -8,10 +8,13 @@
         <item name="android:paddingEnd">@dimen/itemListPaddingStartEnd</item>
     </style>
 
-    <style name="ListItem.NotesListItem">
+    <style name="ListItemClickable">
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:foreground">@drawable/notes_list_item_selectable</item>
+    </style>
+
+    <style name="ListItem.NotesListItem">
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">?android:textColorPrimary</item>
         <item name="android:textSize">@dimen/notesListItemTitleTextSize</item>
