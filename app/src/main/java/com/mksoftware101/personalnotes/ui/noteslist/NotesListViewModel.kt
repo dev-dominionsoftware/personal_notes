@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.mksoftware101.personalnotes.BR
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.domain.GetAllNotesUseCase
+import com.mksoftware101.personalnotes.ui.model.toNotesUIList
 import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemDateViewModel
 import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemFactory
 import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemViewModel
@@ -87,7 +88,7 @@ class NotesListViewModel
             try {
                 showLoading()
                 getAllNotesUseCase.run().collect { notesList ->
-                    val itemsList = notesListItemFactory.assemble(notesList)
+                    val itemsList = notesListItemFactory.assemble(notesList.toNotesUIList())
                     hideLoading()
                     this@NotesListViewModel.itemsList.update(itemsList)
                 }

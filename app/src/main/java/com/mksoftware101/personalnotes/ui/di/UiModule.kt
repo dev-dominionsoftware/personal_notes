@@ -4,7 +4,7 @@ import android.content.Context
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.common.Formatter
 import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListDateSectionFormatter
-import com.mksoftware101.personalnotes.ui.noteslist.NotesListItemFactory
+import com.mksoftware101.personalnotes.ui.noteslist.item.NotesListItemFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
