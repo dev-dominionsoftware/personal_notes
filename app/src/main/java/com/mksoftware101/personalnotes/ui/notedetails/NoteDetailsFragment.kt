@@ -61,7 +61,7 @@ class NoteDetailsFragment : Fragment() {
 
     private var currentNavigationIcon: Drawable? = null
 
-    private fun render(state: NotesDetailsState) {
+    private fun render(state: NoteDetailsState) {
         changeNavigationIconIfNeeded(state.isNoteChanged)
     }
 

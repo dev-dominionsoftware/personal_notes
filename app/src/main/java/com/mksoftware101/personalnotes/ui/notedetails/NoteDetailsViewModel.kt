@@ -27,8 +27,8 @@ class NoteDetailsViewModel
     val titleObservable = ObservableField("")
     val noteObservable = ObservableField("")
 
-    private val _state = MutableLiveData<NotesDetailsState>()
-    val state: LiveData<NotesDetailsState> = _state
+    private val _state = MutableLiveData<NoteDetailsState>()
+    val state: LiveData<NoteDetailsState> = _state
 
     private var note: Note? = null
 
@@ -87,7 +87,7 @@ class NoteDetailsViewModel
     }
 
     private fun reduce(partialState: NoteDetailsPartialState) {
-        val currentState: NotesDetailsState = _state.value ?: NotesDetailsState.initialize()
+        val currentState: NoteDetailsState = _state.value ?: NoteDetailsState.initialize()
         isNoteChangedLastTime = currentState.isNoteChanged
         when (partialState) {
             is NoteDetailsPartialState.NoteFetched -> {
