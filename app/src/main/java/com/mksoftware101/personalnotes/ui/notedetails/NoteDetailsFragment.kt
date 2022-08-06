@@ -1,11 +1,11 @@
 package com.mksoftware101.personalnotes.ui.notedetails
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -56,32 +56,27 @@ class NoteDetailsFragment : Fragment() {
             }
         }
 
-        viewModel.state.observe(viewLifecycleOwner) { state ->
-            if (state == NoteDetailsState.OperationDoneSuccessfully) {
-                findNavController().popBackStack()
-            }
-        }
+        viewModel.state.observe(viewLifecycleOwner) { state -> render(state) }
     }
 
-    private fun startListenForTyping() {
-        binding?.noteTitleEditText?.doOnTextChanged { _, _, _, _ ->
-            changeNavigationIcon()
-        }
-        binding?.noteDataEditText?.doOnTextChanged { _, _, _, _ ->
-            changeNavigationIcon()
-        }
+    private var currentNavigationIcon: Drawable? = null
+
+    private fun render(state: NotesDetailsState) {
+        changeNavigationIconIfNeeded(state.isNoteChanged)
     }
 
-
-    override fun onStart() {
-        super.onStart()
-        startListenForTyping()
-    }
+//    private fun startListenForTyping() {
+//        binding?.noteTitleEditText?.doOnTextChanged { _, _, _, _ ->
+//            changeNavigationIcon()
+//        }
+//        binding?.noteDataEditText?.doOnTextChanged { _, _, _, _ ->
+//            changeNavigationIcon()
+//        }
+//    }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun setupNavigationHome() {
-        binding?.noteDetailsTopAppBar?.navigationIcon =
-            requireContext().getDrawable(R.drawable.ic_baseline_arrow_back_white_24)
+        setNavigationIcon(getDrawableBy(false))
         binding?.noteDetailsTopAppBar?.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
@@ -95,12 +90,26 @@ class NoteDetailsFragment : Fragment() {
         }
     }
 
+    private fun changeNavigationIconIfNeeded(isNoteChanged: Boolean) {
+        val candidateNavigationIcon = getDrawableBy(isNoteChanged)
+        if (currentNavigationIcon != candidateNavigationIcon) {
+            setNavigationIcon(candidateNavigationIcon)
+        }
+    }
+
     @SuppressLint("UseCompatLoadingForDrawables")
-    private fun changeNavigationIcon() {
-        if (!isNavigationIconChanged) {
-            binding?.noteDetailsTopAppBar?.navigationIcon =
-                requireContext().getDrawable(R.drawable.ic_baseline_done_white_24)
-            isNavigationIconChanged = true
+    private fun getDrawableBy(isNoteChanged: Boolean) = requireContext().getDrawable(
+        if (isNoteChanged) {
+            R.drawable.ic_baseline_done_white_24
+        } else {
+            R.drawable.ic_baseline_arrow_back_white_24
+        }
+    )
+
+    private fun setNavigationIcon(icon: Drawable?) {
+        icon?.let { iconDrawable ->
+            binding?.noteDetailsTopAppBar?.navigationIcon = iconDrawable
+            currentNavigationIcon = iconDrawable
         }
     }
 }

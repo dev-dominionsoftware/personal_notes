@@ -51,6 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
+                    android:onTextChanged="@{(text, start, before, count) -> viewModel.onTitleChanged(text.toString())}"
                     android:text="@={viewModel.titleObservable}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,6 +79,7 @@
                         android:layout_height="match_parent"
                         android:imeOptions="actionDone"
                         android:inputType="textMultiLine"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onNoteTextChanged(text.toString())}"
                         android:text="@={viewModel.noteObservable}" />
                 </com.google.android.material.textfield.TextInputLayout>
 

@@ -1,7 +1,5 @@
 package com.mksoftware101.personalnotes.ui.notedetails
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,10 +27,14 @@ class NoteDetailsViewModel
     val titleObservable = ObservableField("")
     val noteObservable = ObservableField("")
 
-    private val _state = MutableLiveData<NoteDetailsState>()
-    val state: LiveData<NoteDetailsState> = _state
+    private val _state = MutableLiveData<NotesDetailsState>()
+    val state: LiveData<NotesDetailsState> = _state
 
     private var note: Note? = null
+
+    private var tempTitle = ""
+    private var tempNoteText = ""
+    private var isNoteChangedLastTime: Boolean = false
 
     fun getNoteBy(Id: Long) {
         if (Id == -1L) {
@@ -45,8 +47,61 @@ class NoteDetailsViewModel
                 titleObservable.set(note.title)
                 noteObservable.set(note.data)
                 this@NoteDetailsViewModel.note = note
+                reduce(NoteDetailsPartialState.NoteFetched(isSuccess = true))
             } catch (e: Exception) {
+                reduce(NoteDetailsPartialState.NoteFetched(isSuccess = false))
                 e.printStackTrace()
+            }
+        }
+    }
+
+    fun onTitleChanged(newTitle: String) {
+        tempTitle = newTitle
+        notifyChanges()
+    }
+
+    fun onNoteTextChanged(newNoteText: String) {
+        tempNoteText = newNoteText
+        notifyChanges()
+    }
+
+    private fun notifyChanges() {
+        if (note == null) {
+            if (tempTitle.isNotEmpty()) {
+                reduce(NoteDetailsPartialState.NoteChanged)
+            } else {
+                reduce(NoteDetailsPartialState.NothingChanged)
+            }
+        } else {
+            if (tempTitle.isEmpty()) {
+                reduce(NoteDetailsPartialState.NothingChanged)
+                return
+            }
+
+            if (tempTitle != note!!.title || tempNoteText != note!!.data) {
+                reduce(NoteDetailsPartialState.NoteChanged)
+            } else {
+                reduce(NoteDetailsPartialState.NothingChanged)
+            }
+        }
+    }
+
+    private fun reduce(partialState: NoteDetailsPartialState) {
+        val currentState: NotesDetailsState = _state.value ?: NotesDetailsState.initialize()
+        isNoteChangedLastTime = currentState.isNoteChanged
+        when (partialState) {
+            is NoteDetailsPartialState.NoteFetched -> {
+                _state.value = currentState.copy(isNoteFetched = partialState.isSuccess)
+            }
+            is NoteDetailsPartialState.NoteChanged -> {
+                if (!isNoteChangedLastTime) {
+                    _state.value = currentState.copy(isNoteChanged = true)
+                }
+            }
+            is NoteDetailsPartialState.NothingChanged -> {
+                if (isNoteChangedLastTime) {
+                    _state.value = currentState.copy(isNoteChanged = false)
+                }
             }
         }
     }
@@ -55,9 +110,15 @@ class NoteDetailsViewModel
         viewModelScope.launch {
             try {
                 if (note == null) {
-                    val note = Note(-1, titleObservable.get() ?: "", noteObservable.get() ?: "", LocalDateTime.now(), false)
+                    val note = Note(
+                        -1,
+                        titleObservable.get() ?: "",
+                        noteObservable.get() ?: "",
+                        LocalDateTime.now(),
+                        false
+                    )
                     insertNoteUseCase.run(note)
-                    _state.value = NoteDetailsState.OperationDoneSuccessfully
+//                    _state.value = NoteDetailsPartialState.OperationDoneSuccessfully
                 } else {
                     note?.let { note ->
                         updateNoteUseCase.run(
@@ -66,7 +127,7 @@ class NoteDetailsViewModel
                                 data = noteObservable.get() ?: ""
                             )
                         )
-                        _state.value = NoteDetailsState.OperationDoneSuccessfully
+//                        _state.value = NoteDetailsPartialState.OperationDoneSuccessfully
                     }
                 }
             } catch (e: Exception) {
@@ -80,7 +141,7 @@ class NoteDetailsViewModel
             try {
                 note?.let { note ->
                     deleteNoteUseCase.run(note)
-                    _state.value = NoteDetailsState.OperationDoneSuccessfully
+//                    _state.value = NoteDetailsPartialState.OperationDoneSuccessfully
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
