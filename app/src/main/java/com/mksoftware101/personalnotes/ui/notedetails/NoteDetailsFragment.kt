@@ -23,11 +23,8 @@ class NoteDetailsFragment : Fragment() {
 
     private var binding: FragmentNoteDetailsBinding? = null
     private val viewModel by viewModels<NoteDetailsViewModel>()
+    private var currentNavigationIcon: Drawable? = null
     private var isNoteChanged = false
-
-    companion object {
-        const val logTag = "NoteDetailsFragment"
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,23 +56,12 @@ class NoteDetailsFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner) { state -> render(state) }
     }
 
-    private var currentNavigationIcon: Drawable? = null
-
     private fun render(state: NoteDetailsState) {
         if (state.isOperationDone) {
             backToHome()
         }
         changeNavigationIconIfNeeded(state.isNoteChanged)
     }
-
-//    private fun startListenForTyping() {
-//        binding?.noteTitleEditText?.doOnTextChanged { _, _, _, _ ->
-//            changeNavigationIcon()
-//        }
-//        binding?.noteDataEditText?.doOnTextChanged { _, _, _, _ ->
-//            changeNavigationIcon()
-//        }
-//    }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun setupNavigationHome() {

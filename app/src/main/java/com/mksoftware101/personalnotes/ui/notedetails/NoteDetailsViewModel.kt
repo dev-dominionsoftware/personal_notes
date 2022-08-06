@@ -34,7 +34,6 @@ class NoteDetailsViewModel
 
     private var tempTitle = ""
     private var tempNoteText = ""
-    private var isNoteChangedLastTime: Boolean = false
 
     fun getNoteBy(Id: Long) {
         if (Id == -1L) {
