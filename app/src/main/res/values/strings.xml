@@ -8,4 +8,8 @@
     <string name="noteDetailsTitleCreate">Create a new note</string>
     <string name="noteDetailsTitleEdit">Edit note</string>
     <string name="notesListToday">Today</string>
+    <string name="noteDetailsNoteFetchedFailed">Sorry, note failed</string>
+    <string name="noteDetailsCreateNoteFailed">Create note failed</string>
+    <string name="noteDetailsEditNoteFailed">Edit note failed</string>
+    <string name="noteDetailsDeleteNoteFailed">Delete note failed</string>
 </resources>
