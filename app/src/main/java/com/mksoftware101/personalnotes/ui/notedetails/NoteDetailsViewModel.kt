@@ -37,6 +37,10 @@ class NoteDetailsViewModel
     private var tempTitle = ""
     private var tempNoteText = ""
 
+    fun initialize() {
+        reduce(NoteDetailsPartialState.Init)
+    }
+
     fun getNoteBy(Id: Long) {
         if (Id == NOTE_ID_UNDEFINED) {
             return
@@ -96,6 +100,9 @@ class NoteDetailsViewModel
     private fun reduce(partialState: NoteDetailsPartialState) {
         val currentState: NoteDetailsState = _state.value ?: NoteDetailsState.initialize()
         when (partialState) {
+            is NoteDetailsPartialState.Init -> {
+                _state.value = NoteDetailsState.initialize()
+            }
             is NoteDetailsPartialState.NoteFetched -> {
                 _state.value = currentState.copy(isNoteFetched = partialState.isSuccess)
             }

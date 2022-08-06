@@ -57,18 +57,19 @@ class NoteDetailsFragment : Fragment() {
         }
 
         viewModel.state.observe(viewLifecycleOwner) { state -> render(state) }
+        viewModel.initialize()
     }
 
     private fun render(state: NoteDetailsState) {
-        if (state.isOperationDone) {
+        if (state.isOperationDone == true) {
             backToHome()
         }
         handleNoteFetched(state.isNoteFetched)
         changeNavigationIconIfNeeded(state.isNoteChanged)
     }
 
-    private fun handleNoteFetched(isNoteFetched: Boolean) {
-        if (!isNoteFetched) {
+    private fun handleNoteFetched(isNoteFetched: Boolean?) {
+        if (isNoteFetched == false) {
             showSnackbar(R.string.noteDetailsNoteFetchedFailed)
             disableAll()
         }

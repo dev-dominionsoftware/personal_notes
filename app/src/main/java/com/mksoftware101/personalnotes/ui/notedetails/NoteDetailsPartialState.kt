@@ -1,6 +1,7 @@
 package com.mksoftware101.personalnotes.ui.notedetails
 
 sealed class NoteDetailsPartialState {
+    object Init : NoteDetailsPartialState()
     object OperationDoneSuccessfully : NoteDetailsPartialState()
     object NoteHasChanged : NoteDetailsPartialState()
     object NoteHasNotChanged : NoteDetailsPartialState()
