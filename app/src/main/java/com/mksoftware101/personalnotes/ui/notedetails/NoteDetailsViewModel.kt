@@ -74,7 +74,7 @@ class NoteDetailsViewModel
                                 data = tempNoteText
                             )
                         )
-                        reduce(NoteDetailsPartialState.EditNote(isSuccess = false))
+                        reduce(NoteDetailsPartialState.EditNote(isSuccess = true))
                     }
                 }
             } catch (e: Exception) {
@@ -170,8 +170,7 @@ class NoteDetailsViewModel
                 _state.value = currentState.copy(isNoteChanged = false)
             }
             is NoteDetailsPartialState.CreateNote -> {
-                _state.value =
-                    NoteDetailsState.of(isCreateNoteSuccessfully = partialState.isSuccess)
+                _state.value = currentState.copy(isCreateNoteSuccessfully = partialState.isSuccess)
             }
             is NoteDetailsPartialState.EditNote -> {
                 _state.value = currentState.copy(isEditNoteSuccessfully = partialState.isSuccess)
