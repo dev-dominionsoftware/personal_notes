@@ -60,26 +60,33 @@ class NoteDetailsFragment : Fragment() {
     }
 
     private fun render(state: NoteDetailsState) {
-        if (state.isOperationDone == true) {
-            backToHome()
-        }
-
-        state.isCreateNoteSuccessfully?.let { isCreateNoteSuccessfully ->
-            if (isCreateNoteSuccessfully) {
-                backToHome()
-            } else {
-                showSnackbar(R.string.noteDetailsCreateNoteFailed)
+        state.isNoteFetched?.let { isSuccess ->
+            if (!isSuccess) {
+                showSnackbar(R.string.noteDetailsNoteFetchedFailed)
+                disableAll()
             }
         }
 
-        handleNoteFetched(state.isNoteFetched)
+        state.isCreateNoteSuccessfully?.let { isSuccess ->
+            handleCRUDoperation(isSuccess, R.string.noteDetailsCreateNoteFailed)
+        }
+
+        state.isEditNoteSuccessfully?.let { isSuccess ->
+            handleCRUDoperation(isSuccess, R.string.noteDetailsEditNoteFailed)
+        }
+
+        state.isDeleteNoteSuccessfully?.let { isSuccess ->
+            handleCRUDoperation(isSuccess, R.string.noteDetailsDeleteNoteFailed)
+        }
+
         changeNavigationIconIfNeeded(state.isNoteChanged)
     }
 
-    private fun handleNoteFetched(isNoteFetched: Boolean?) {
-        if (isNoteFetched == false) {
-            showSnackbar(R.string.noteDetailsNoteFetchedFailed)
-            disableAll()
+    private fun handleCRUDoperation(isSuccess: Boolean, @StringRes stringResId: Int) {
+        if (isSuccess) {
+            backToHome()
+        } else {
+            showSnackbar(stringResId)
         }
     }
 

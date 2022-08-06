@@ -58,6 +58,50 @@ class NoteDetailsViewModel
         }
     }
 
+    fun saveNote() {
+        viewModelScope.launch {
+            try {
+                if (isNewNote()) {
+                    createNewNote().also { note ->
+                        insertNoteUseCase.run(note)
+                    }
+                    reduce(NoteDetailsPartialState.CreateNote(isSuccess = true))
+                } else {
+                    note?.let { note ->
+                        updateNoteUseCase.run(
+                            note.copy(
+                                title = tempTitle,
+                                data = tempNoteText
+                            )
+                        )
+                        reduce(NoteDetailsPartialState.EditNote(isSuccess = false))
+                    }
+                }
+            } catch (e: Exception) {
+                if (isNewNote()) {
+                    reduce(NoteDetailsPartialState.CreateNote(isSuccess = false))
+                } else {
+                    reduce(NoteDetailsPartialState.EditNote(isSuccess = false))
+                }
+                Timber.e(e)
+            }
+        }
+    }
+
+    fun deleteNote() {
+        viewModelScope.launch {
+            try {
+                note?.let { note ->
+                    deleteNoteUseCase.run(note)
+                    reduce(NoteDetailsPartialState.DeleteNote(isSuccess = true))
+                }
+            } catch (e: Exception) {
+                reduce(NoteDetailsPartialState.DeleteNote(isSuccess = false))
+                Timber.e(e)
+            }
+        }
+    }
+
     fun onTitleChanged(newTitle: String) {
         tempTitle = newTitle
         notifyChanges()
@@ -102,6 +146,14 @@ class NoteDetailsViewModel
         noteObservable.set(note?.data ?: "")
     }
 
+    private fun createNewNote() = Note(
+        Id = -1,
+        title = tempTitle,
+        data = tempNoteText,
+        creationDateTime = LocalDateTime.now(),
+        isFavourite = false
+    )
+
     private fun reduce(partialState: NoteDetailsPartialState) {
         val currentState: NoteDetailsState = _state.value ?: NoteDetailsState.initialize()
         when (partialState) {
@@ -118,57 +170,14 @@ class NoteDetailsViewModel
                 _state.value = currentState.copy(isNoteChanged = false)
             }
             is NoteDetailsPartialState.CreateNote -> {
-                _state.value = NoteDetailsState.of(isCreateNoteSuccessfully = true)
+                _state.value =
+                    NoteDetailsState.of(isCreateNoteSuccessfully = partialState.isSuccess)
             }
-            is NoteDetailsPartialState.OperationDoneSuccessfully -> {
-                _state.value = currentState.copy(isOperationDone = true)
+            is NoteDetailsPartialState.EditNote -> {
+                _state.value = currentState.copy(isEditNoteSuccessfully = partialState.isSuccess)
             }
-        }
-    }
-
-    private fun createNewNote() = Note(
-        Id = -1,
-        title = tempTitle,
-        data = tempNoteText,
-        creationDateTime = LocalDateTime.now(),
-        isFavourite = false
-    )
-
-    fun saveNote() {
-        viewModelScope.launch {
-            try {
-                if (isNewNote()) {
-                    createNewNote().also { note ->
-                        insertNoteUseCase.run(note)
-                    }
-                    reduce(NoteDetailsPartialState.CreateNote(isSuccess = true))
-                } else {
-                    note?.let { note ->
-                        updateNoteUseCase.run(
-                            note.copy(
-                                title = tempTitle,
-                                data = tempNoteText
-                            )
-                        )
-                        reduce(NoteDetailsPartialState.CreateNote(isSuccess = false))
-                    }
-                }
-            } catch (e: Exception) {
-                reduce(NoteDetailsPartialState.CreateNote(isSuccess = false))
-                Timber.e(e)
-            }
-        }
-    }
-
-    fun deleteNote() {
-        viewModelScope.launch {
-            try {
-                note?.let { note ->
-                    deleteNoteUseCase.run(note)
-                    reduce(NoteDetailsPartialState.OperationDoneSuccessfully)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
+            is NoteDetailsPartialState.DeleteNote -> {
+                _state.value = currentState.copy(isDeleteNoteSuccessfully = partialState.isSuccess)
             }
         }
     }
