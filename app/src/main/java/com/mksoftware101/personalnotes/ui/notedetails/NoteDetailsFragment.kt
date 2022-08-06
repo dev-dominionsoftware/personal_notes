@@ -21,10 +21,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class NoteDetailsFragment : Fragment() {
 
-    val args: NoteDetailsFragmentArgs by navArgs()
+    private val args: NoteDetailsFragmentArgs by navArgs()
 
-    private var binding: FragmentNoteDetailsBinding? = null
+    private var _binding: FragmentNoteDetailsBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel by viewModels<NoteDetailsViewModel>()
+
     private var currentNavigationIcon: Drawable? = null
     private var isNoteChanged = false
 
@@ -32,31 +35,32 @@ class NoteDetailsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding =
+    ): View {
+        _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_note_details, container, false)
-        binding?.viewModel = viewModel
-        viewModel.getNoteBy(args.itemId)
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupUI()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    private fun setupUI() {
+        binding.viewModel = viewModel
+        with(viewModel) {
+            state.observe(viewLifecycleOwner) { state -> render(state) }
+            initialize()
+            getNoteBy(args.itemId)
+        }
         setupTitle()
         setupNavigationHome()
-
-        binding?.noteDetailsTopAppBar?.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.noteDetailsMenuDeleteNote -> {
-                    viewModel.deleteNote()
-                    true
-                }
-                else -> false
-            }
-        }
-
-        viewModel.state.observe(viewLifecycleOwner) { state -> render(state) }
-        viewModel.initialize()
+        setupMenuListener()
     }
 
     private fun render(state: NoteDetailsState) {
@@ -90,15 +94,27 @@ class NoteDetailsFragment : Fragment() {
         }
     }
 
+    private fun setupMenuListener() {
+        binding.noteDetailsTopAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.noteDetailsMenuDeleteNote -> {
+                    viewModel.deleteNote()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
     private fun disableAll() {
-        binding?.let {
+        binding.let {
             it.noteTitleEditText.isEnabled = false
             it.noteDataEditText.isEnabled = false
         }
     }
 
     private fun showSnackbar(@StringRes textId: Int) {
-        binding?.let {
+        binding.let {
             Snackbar.make(it.detailsCoordinatorLayout, getText(textId), Snackbar.LENGTH_SHORT)
                 .show()
         }
@@ -107,7 +123,7 @@ class NoteDetailsFragment : Fragment() {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun setupNavigationHome() {
         setNavigationIcon(getDrawableBy(false))
-        binding?.noteDetailsTopAppBar?.setNavigationOnClickListener {
+        binding.noteDetailsTopAppBar.setNavigationOnClickListener {
             if (isNoteChanged) {
                 viewModel.saveNote()
             } else {
@@ -117,11 +133,13 @@ class NoteDetailsFragment : Fragment() {
     }
 
     private fun setupTitle() {
-        if (args.itemId == NotesListConstants.NOTE_ID_UNDEFINED) {
-            binding?.noteDetailsTopAppBar?.setTitle(R.string.noteDetailsTitleCreate)
-        } else {
-            binding?.noteDetailsTopAppBar?.setTitle(R.string.noteDetailsTitleEdit)
-        }
+        binding.noteDetailsTopAppBar.setTitle(
+            if (args.itemId == NotesListConstants.NOTE_ID_UNDEFINED) {
+                R.string.noteDetailsTitleCreate
+            } else {
+                R.string.noteDetailsTitleEdit
+            }
+        )
     }
 
     private fun changeNavigationIconIfNeeded(isNoteChanged: Boolean) {
@@ -143,7 +161,7 @@ class NoteDetailsFragment : Fragment() {
 
     private fun setNavigationIcon(icon: Drawable?) {
         icon?.let { iconDrawable ->
-            binding?.noteDetailsTopAppBar?.navigationIcon = iconDrawable
+            binding.noteDetailsTopAppBar.navigationIcon = iconDrawable
             currentNavigationIcon = iconDrawable
         }
     }
