@@ -23,7 +23,7 @@ class NoteDetailsFragment : Fragment() {
 
     private var binding: FragmentNoteDetailsBinding? = null
     private val viewModel by viewModels<NoteDetailsViewModel>()
-    private var isNavigationIconChanged = false
+    private var isNoteChanged = false
 
     companion object {
         const val logTag = "NoteDetailsFragment"
@@ -62,6 +62,9 @@ class NoteDetailsFragment : Fragment() {
     private var currentNavigationIcon: Drawable? = null
 
     private fun render(state: NoteDetailsState) {
+        if (state.isOperationDone) {
+            backToHome()
+        }
         changeNavigationIconIfNeeded(state.isNoteChanged)
     }
 
@@ -78,7 +81,11 @@ class NoteDetailsFragment : Fragment() {
     private fun setupNavigationHome() {
         setNavigationIcon(getDrawableBy(false))
         binding?.noteDetailsTopAppBar?.setNavigationOnClickListener {
-            findNavController().popBackStack()
+            if (isNoteChanged) {
+                viewModel.saveNote()
+            } else {
+                backToHome()
+            }
         }
     }
 
@@ -91,6 +98,7 @@ class NoteDetailsFragment : Fragment() {
     }
 
     private fun changeNavigationIconIfNeeded(isNoteChanged: Boolean) {
+        this@NoteDetailsFragment.isNoteChanged = isNoteChanged
         val candidateNavigationIcon = getDrawableBy(isNoteChanged)
         if (currentNavigationIcon != candidateNavigationIcon) {
             setNavigationIcon(candidateNavigationIcon)
@@ -111,5 +119,9 @@ class NoteDetailsFragment : Fragment() {
             binding?.noteDetailsTopAppBar?.navigationIcon = iconDrawable
             currentNavigationIcon = iconDrawable
         }
+    }
+
+    private fun backToHome() {
+        findNavController().popBackStack()
     }
 }

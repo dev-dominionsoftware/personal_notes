@@ -66,47 +66,53 @@ class NoteDetailsViewModel
     }
 
     private fun notifyChanges() {
-        if (note == null) {
-            if (tempTitle.isNotEmpty()) {
-                reduce(NoteDetailsPartialState.NoteChanged)
+        if (isNewNote()) {
+            // Title is mandatory
+            if (isNewTitleEmpty()) {
+                reduce(NoteDetailsPartialState.NoteHasNotChanged)
             } else {
-                reduce(NoteDetailsPartialState.NothingChanged)
+                reduce(NoteDetailsPartialState.NoteHasChanged)
             }
         } else {
-            if (tempTitle.isEmpty()) {
-                reduce(NoteDetailsPartialState.NothingChanged)
+            if (isNewTitleEmpty()) {
+                reduce(NoteDetailsPartialState.NoteHasNotChanged)
                 return
             }
 
-            if (tempTitle != note!!.title || tempNoteText != note!!.data) {
-                reduce(NoteDetailsPartialState.NoteChanged)
+            if (isTitleOrNoteTextChange()) {
+                reduce(NoteDetailsPartialState.NoteHasChanged)
             } else {
-                reduce(NoteDetailsPartialState.NothingChanged)
+                reduce(NoteDetailsPartialState.NoteHasNotChanged)
             }
         }
     }
 
+    private fun isNewNote() = note == null
+
+    private fun isNewTitleEmpty() = tempTitle.isEmpty()
+
+    private fun isTitleOrNoteTextChange() =
+        note?.let { note -> tempTitle != note.title || tempNoteText != note.data } ?: false
+
     private fun reduce(partialState: NoteDetailsPartialState) {
         val currentState: NoteDetailsState = _state.value ?: NoteDetailsState.initialize()
-        isNoteChangedLastTime = currentState.isNoteChanged
         when (partialState) {
             is NoteDetailsPartialState.NoteFetched -> {
                 _state.value = currentState.copy(isNoteFetched = partialState.isSuccess)
             }
-            is NoteDetailsPartialState.NoteChanged -> {
-                if (!isNoteChangedLastTime) {
-                    _state.value = currentState.copy(isNoteChanged = true)
-                }
+            is NoteDetailsPartialState.NoteHasChanged -> {
+                _state.value = currentState.copy(isNoteChanged = true)
             }
-            is NoteDetailsPartialState.NothingChanged -> {
-                if (isNoteChangedLastTime) {
-                    _state.value = currentState.copy(isNoteChanged = false)
-                }
+            is NoteDetailsPartialState.NoteHasNotChanged -> {
+                _state.value = currentState.copy(isNoteChanged = false)
+            }
+            is NoteDetailsPartialState.OperationDoneSuccessfully -> {
+                _state.value = currentState.copy(isOperationDone = true)
             }
         }
     }
 
-    fun onSaveClick() {
+    fun saveNote() {
         viewModelScope.launch {
             try {
                 if (note == null) {
@@ -118,7 +124,7 @@ class NoteDetailsViewModel
                         false
                     )
                     insertNoteUseCase.run(note)
-//                    _state.value = NoteDetailsPartialState.OperationDoneSuccessfully
+                    reduce(NoteDetailsPartialState.OperationDoneSuccessfully)
                 } else {
                     note?.let { note ->
                         updateNoteUseCase.run(
@@ -127,7 +133,7 @@ class NoteDetailsViewModel
                                 data = noteObservable.get() ?: ""
                             )
                         )
-//                        _state.value = NoteDetailsPartialState.OperationDoneSuccessfully
+                        reduce(NoteDetailsPartialState.OperationDoneSuccessfully)
                     }
                 }
             } catch (e: Exception) {
@@ -141,7 +147,7 @@ class NoteDetailsViewModel
             try {
                 note?.let { note ->
                     deleteNoteUseCase.run(note)
-//                    _state.value = NoteDetailsPartialState.OperationDoneSuccessfully
+                    reduce(NoteDetailsPartialState.OperationDoneSuccessfully)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

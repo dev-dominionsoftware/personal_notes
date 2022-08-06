@@ -89,7 +89,7 @@
                 android:id="@+id/saveButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.onSaveClick()}"
+                android:onClick="@{() -> viewModel.saveNote()}"
                 android:text="@string/noteDetailsSaveButton"
                 android:textAllCaps="false"
                 app:layout_constraintBottom_toBottomOf="parent"
