@@ -6,14 +6,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.databinding.FragmentNoteDetailsBinding
-import com.mksoftware101.personalnotes.ui.noteslist.NotesListConstants
+import com.mksoftware101.personalnotes.ui.common.NotesListConstants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,7 +63,29 @@ class NoteDetailsFragment : Fragment() {
         if (state.isOperationDone) {
             backToHome()
         }
+        handleNoteFetched(state.isNoteFetched)
         changeNavigationIconIfNeeded(state.isNoteChanged)
+    }
+
+    private fun handleNoteFetched(isNoteFetched: Boolean) {
+        if (!isNoteFetched) {
+            showSnackbar(R.string.noteDetailsNoteFetchedFailed)
+            disableAll()
+        }
+    }
+
+    private fun disableAll() {
+        binding?.let {
+            it.noteTitleEditText.isEnabled = false
+            it.noteDataEditText.isEnabled = false
+        }
+    }
+
+    private fun showSnackbar(@StringRes textId: Int) {
+        binding?.let {
+            Snackbar.make(it.detailsCoordinatorLayout, getText(textId), Snackbar.LENGTH_SHORT)
+                .show()
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -76,7 +101,7 @@ class NoteDetailsFragment : Fragment() {
     }
 
     private fun setupTitle() {
-        if (args.itemId == NotesListConstants.NOTES_LIST_NO_ITEM_ID) {
+        if (args.itemId == NotesListConstants.NOTE_ID_UNDEFINED) {
             binding?.noteDetailsTopAppBar?.setTitle(R.string.noteDetailsTitleCreate)
         } else {
             binding?.noteDetailsTopAppBar?.setTitle(R.string.noteDetailsTitleEdit)

@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.databinding.FragmentNoteslistBinding
-import com.mksoftware101.personalnotes.ui.noteslist.NotesListConstants.NOTES_LIST_NO_ITEM_ID
+import com.mksoftware101.personalnotes.ui.common.NotesListConstants.NOTE_ID_UNDEFINED
 import com.mksoftware101.personalnotes.ui.noteslist.states.NotesListState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,7 +54,7 @@ class NotesListFragment : Fragment() {
     private fun openDetailsScreen(itemId: Long?) {
         val navigateAction =
             NotesListFragmentDirections.actionNotesListFragmentToNoteDetailsFragment(
-                itemId ?: NOTES_LIST_NO_ITEM_ID
+                itemId ?: NOTE_ID_UNDEFINED
             )
         findNavController().navigate(navigateAction)
     }

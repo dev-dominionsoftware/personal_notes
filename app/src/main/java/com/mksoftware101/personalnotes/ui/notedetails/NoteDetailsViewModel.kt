@@ -10,8 +10,10 @@ import com.mksoftware101.personalnotes.domain.GetNoteByIdUseCase
 import com.mksoftware101.personalnotes.domain.InsertNoteUseCase
 import com.mksoftware101.personalnotes.domain.UpdateNoteUseCase
 import com.mksoftware101.personalnotes.domain.model.Note
+import com.mksoftware101.personalnotes.ui.common.NotesListConstants.NOTE_ID_UNDEFINED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -36,20 +38,18 @@ class NoteDetailsViewModel
     private var tempNoteText = ""
 
     fun getNoteBy(Id: Long) {
-        if (Id == -1L) {
+        if (Id == NOTE_ID_UNDEFINED) {
             return
         }
 
         viewModelScope.launch {
             try {
-                val note = getNoteByIdUseCase.run(Id)
-                titleObservable.set(note.title)
-                noteObservable.set(note.data)
-                this@NoteDetailsViewModel.note = note
+                note = getNoteByIdUseCase.run(Id)
+                updateObservables()
                 reduce(NoteDetailsPartialState.NoteFetched(isSuccess = true))
             } catch (e: Exception) {
                 reduce(NoteDetailsPartialState.NoteFetched(isSuccess = false))
-                e.printStackTrace()
+                Timber.e(e)
             }
         }
     }
@@ -109,6 +109,11 @@ class NoteDetailsViewModel
                 _state.value = currentState.copy(isOperationDone = true)
             }
         }
+    }
+
+    private fun updateObservables() {
+        titleObservable.set(note?.title ?: "")
+        noteObservable.set(note?.data ?: "")
     }
 
     fun saveNote() {
