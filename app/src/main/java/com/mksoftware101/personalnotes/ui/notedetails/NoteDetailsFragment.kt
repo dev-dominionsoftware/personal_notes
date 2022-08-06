@@ -110,7 +110,7 @@ class NoteDetailsFragment : Fragment() {
         if (isNoteChanged) {
             R.drawable.ic_baseline_done_white_24
         } else {
-            R.drawable.ic_baseline_arrow_back_white_24
+            R.drawable.ic_baseline_close_white_24
         }
     )
 
