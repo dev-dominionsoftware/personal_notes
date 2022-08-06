@@ -9,4 +9,5 @@
     <string name="noteDetailsTitleEdit">Edit note</string>
     <string name="notesListToday">Today</string>
     <string name="noteDetailsNoteFetchedFailed">Sorry, note failed</string>
+    <string name="noteDetailsCreateNoteFailed">Create note failed</string>
 </resources>

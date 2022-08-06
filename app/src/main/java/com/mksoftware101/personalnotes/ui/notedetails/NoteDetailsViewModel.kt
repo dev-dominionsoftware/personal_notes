@@ -97,6 +97,11 @@ class NoteDetailsViewModel
     private fun isTitleOrNoteTextChange() =
         note?.let { note -> tempTitle != note.title || tempNoteText != note.data } ?: false
 
+    private fun updateObservables() {
+        titleObservable.set(note?.title ?: "")
+        noteObservable.set(note?.data ?: "")
+    }
+
     private fun reduce(partialState: NoteDetailsPartialState) {
         val currentState: NoteDetailsState = _state.value ?: NoteDetailsState.initialize()
         when (partialState) {
@@ -112,43 +117,45 @@ class NoteDetailsViewModel
             is NoteDetailsPartialState.NoteHasNotChanged -> {
                 _state.value = currentState.copy(isNoteChanged = false)
             }
+            is NoteDetailsPartialState.CreateNote -> {
+                _state.value = NoteDetailsState.of(isCreateNoteSuccessfully = true)
+            }
             is NoteDetailsPartialState.OperationDoneSuccessfully -> {
                 _state.value = currentState.copy(isOperationDone = true)
             }
         }
     }
 
-    private fun updateObservables() {
-        titleObservable.set(note?.title ?: "")
-        noteObservable.set(note?.data ?: "")
-    }
+    private fun createNewNote() = Note(
+        Id = -1,
+        title = tempTitle,
+        data = tempNoteText,
+        creationDateTime = LocalDateTime.now(),
+        isFavourite = false
+    )
 
     fun saveNote() {
         viewModelScope.launch {
             try {
-                if (note == null) {
-                    val note = Note(
-                        -1,
-                        titleObservable.get() ?: "",
-                        noteObservable.get() ?: "",
-                        LocalDateTime.now(),
-                        false
-                    )
-                    insertNoteUseCase.run(note)
-                    reduce(NoteDetailsPartialState.OperationDoneSuccessfully)
+                if (isNewNote()) {
+                    createNewNote().also { note ->
+                        insertNoteUseCase.run(note)
+                    }
+                    reduce(NoteDetailsPartialState.CreateNote(isSuccess = true))
                 } else {
                     note?.let { note ->
                         updateNoteUseCase.run(
                             note.copy(
-                                title = titleObservable.get() ?: "",
-                                data = noteObservable.get() ?: ""
+                                title = tempTitle,
+                                data = tempNoteText
                             )
                         )
-                        reduce(NoteDetailsPartialState.OperationDoneSuccessfully)
+                        reduce(NoteDetailsPartialState.CreateNote(isSuccess = false))
                     }
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
+                reduce(NoteDetailsPartialState.CreateNote(isSuccess = false))
+                Timber.e(e)
             }
         }
     }

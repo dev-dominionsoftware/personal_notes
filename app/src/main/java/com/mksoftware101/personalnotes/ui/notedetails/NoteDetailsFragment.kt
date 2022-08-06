@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -64,6 +63,15 @@ class NoteDetailsFragment : Fragment() {
         if (state.isOperationDone == true) {
             backToHome()
         }
+
+        state.isCreateNoteSuccessfully?.let { isCreateNoteSuccessfully ->
+            if (isCreateNoteSuccessfully) {
+                backToHome()
+            } else {
+                showSnackbar(R.string.noteDetailsCreateNoteFailed)
+            }
+        }
+
         handleNoteFetched(state.isNoteFetched)
         changeNavigationIconIfNeeded(state.isNoteChanged)
     }

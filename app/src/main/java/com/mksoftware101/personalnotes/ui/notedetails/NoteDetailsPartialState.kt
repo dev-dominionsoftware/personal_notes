@@ -7,5 +7,5 @@ sealed class NoteDetailsPartialState {
     object NoteHasNotChanged : NoteDetailsPartialState()
     data class NoteFetched(val isSuccess: Boolean) : NoteDetailsPartialState()
     data class NoteEdited(val isSuccess: Boolean) : NoteDetailsPartialState()
-    data class NoteCreated(val isSuccess: Boolean) : NoteDetailsPartialState()
+    data class CreateNote(val isSuccess: Boolean) : NoteDetailsPartialState()
 }
