@@ -25,4 +25,9 @@
         <item name="android:textSize">@dimen/notesListItemSectionTextSize</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="NoteDetailsTextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:paddingStart">@dimen/detailsPadding</item>
+        <item name="android:paddingEnd">@dimen/detailsPadding</item>
+    </style>
 </resources>

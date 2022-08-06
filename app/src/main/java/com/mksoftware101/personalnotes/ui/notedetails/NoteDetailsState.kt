@@ -1,5 +1,11 @@
 package com.mksoftware101.personalnotes.ui.notedetails
 
-sealed class NoteDetailsState {
-    object OperationDoneSuccessfully : NoteDetailsState()
+data class NoteDetailsState(
+    val isNoteFetched: Boolean,
+    val isNoteChanged: Boolean,
+    val isOperationDone: Boolean,
+) {
+    companion object {
+        fun initialize() = NoteDetailsState(isNoteFetched = false, isNoteChanged = false, isOperationDone = false)
+    }
 }

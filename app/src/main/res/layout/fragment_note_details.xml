@@ -37,10 +37,11 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/noteTitleInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/NoteDetailsTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/noteDetailsTitleHint"
+                android:paddingTop="@dimen/detailsPadding"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -50,26 +51,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
+                    android:onTextChanged="@{(text, start, before, count) -> viewModel.onTitleChanged(text.toString())}"
                     android:text="@={viewModel.titleObservable}" />
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <ScrollView
                 android:id="@+id/dataScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/noteDetailsTopMargin"
-                app:layout_constraintBottom_toTopOf="@+id/saveButton"
+                android:paddingTop="@dimen/detailsPadding"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/noteTitleInputLayout">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/noteDataInputLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/NoteDetailsTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/noteDetailsDataHint">
+                    android:hint="@string/noteDetailsDataHint"
+                    android:paddingTop="0dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/noteDataEditText"
@@ -77,22 +78,10 @@
                         android:layout_height="match_parent"
                         android:imeOptions="actionDone"
                         android:inputType="textMultiLine"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.onNoteTextChanged(text.toString())}"
                         android:text="@={viewModel.noteObservable}" />
                 </com.google.android.material.textfield.TextInputLayout>
-
             </ScrollView>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/saveButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.onSaveClick()}"
-                android:text="@string/noteDetailsSaveButton"
-                android:textAllCaps="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dataScrollView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

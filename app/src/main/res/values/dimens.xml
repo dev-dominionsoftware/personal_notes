@@ -3,7 +3,6 @@
     <dimen name="listPadding_12">12dp</dimen>
     <dimen name="listItemTextSize_22">22sp</dimen>
     <dimen name="itemListPadding_16">16dp</dimen>
-    <dimen name="noteDetailsTopMargin">12dp</dimen>
     <dimen name="fabMargin">24dp</dimen>
     <dimen name="notesListItemHeight">56dp</dimen>
     <dimen name="itemListPaddingStartEnd">16dp</dimen>
@@ -14,4 +13,6 @@
     <dimen name="notesListItemSectionTextSize">14sp</dimen>
     <dimen name="letterInCircleViewSize">40dp</dimen>
     <dimen name="letterInCircleTextSize">18sp</dimen>
+    <dimen name="detailsTopPadding">12dp</dimen>
+    <dimen name="detailsPadding">12dp</dimen>
 </resources>

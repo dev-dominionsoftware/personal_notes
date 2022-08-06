@@ -1,5 +1,7 @@
 package com.mksoftware101.personalnotes.ui.notedetails
 
+import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mksoftware101.personalnotes.R
 import com.mksoftware101.personalnotes.databinding.FragmentNoteDetailsBinding
+import com.mksoftware101.personalnotes.ui.noteslist.NotesListConstants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,10 +23,8 @@ class NoteDetailsFragment : Fragment() {
 
     private var binding: FragmentNoteDetailsBinding? = null
     private val viewModel by viewModels<NoteDetailsViewModel>()
-
-    companion object {
-        const val logTag = "NoteDetailsFragment"
-    }
+    private var currentNavigationIcon: Drawable? = null
+    private var isNoteChanged = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,15 +40,8 @@ class NoteDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (args.itemId == -1L) {
-            binding?.noteDetailsTopAppBar?.setTitle(R.string.noteDetailsTitleCreate)
-        } else {
-            binding?.noteDetailsTopAppBar?.setTitle(R.string.noteDetailsTitleEdit)
-        }
-
-        binding?.noteDetailsTopAppBar?.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
+        setupTitle()
+        setupNavigationHome()
 
         binding?.noteDetailsTopAppBar?.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -59,10 +53,61 @@ class NoteDetailsFragment : Fragment() {
             }
         }
 
-        viewModel.state.observe(viewLifecycleOwner) { state ->
-            if (state == NoteDetailsState.OperationDoneSuccessfully) {
-                findNavController().popBackStack()
+        viewModel.state.observe(viewLifecycleOwner) { state -> render(state) }
+    }
+
+    private fun render(state: NoteDetailsState) {
+        if (state.isOperationDone) {
+            backToHome()
+        }
+        changeNavigationIconIfNeeded(state.isNoteChanged)
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun setupNavigationHome() {
+        setNavigationIcon(getDrawableBy(false))
+        binding?.noteDetailsTopAppBar?.setNavigationOnClickListener {
+            if (isNoteChanged) {
+                viewModel.saveNote()
+            } else {
+                backToHome()
             }
         }
+    }
+
+    private fun setupTitle() {
+        if (args.itemId == NotesListConstants.NOTES_LIST_NO_ITEM_ID) {
+            binding?.noteDetailsTopAppBar?.setTitle(R.string.noteDetailsTitleCreate)
+        } else {
+            binding?.noteDetailsTopAppBar?.setTitle(R.string.noteDetailsTitleEdit)
+        }
+    }
+
+    private fun changeNavigationIconIfNeeded(isNoteChanged: Boolean) {
+        this@NoteDetailsFragment.isNoteChanged = isNoteChanged
+        val candidateNavigationIcon = getDrawableBy(isNoteChanged)
+        if (currentNavigationIcon != candidateNavigationIcon) {
+            setNavigationIcon(candidateNavigationIcon)
+        }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun getDrawableBy(isNoteChanged: Boolean) = requireContext().getDrawable(
+        if (isNoteChanged) {
+            R.drawable.ic_baseline_done_white_24
+        } else {
+            R.drawable.ic_baseline_close_white_24
+        }
+    )
+
+    private fun setNavigationIcon(icon: Drawable?) {
+        icon?.let { iconDrawable ->
+            binding?.noteDetailsTopAppBar?.navigationIcon = iconDrawable
+            currentNavigationIcon = iconDrawable
+        }
+    }
+
+    private fun backToHome() {
+        findNavController().popBackStack()
     }
 }
