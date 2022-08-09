@@ -14,8 +14,7 @@
             android:id="@+id/action_notesListFragment_to_noteDetailsFragment"
             app:destination="@id/noteDetailsFragment"
             app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in">
+            app:exitAnim="@anim/fade_out">
             <argument
                 android:name="itemId"
                 android:defaultValue="-1L" />
