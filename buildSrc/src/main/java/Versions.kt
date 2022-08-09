@@ -2,6 +2,7 @@ object Versions {
     const val googleServices = "4.3.13"
     const val firebaseCrashlyticsGradle = "2.9.1"
     const val coreKtx = "1.7.0"
+    const val coreSplashScreen = "1.0.0"
     const val appCompat = "1.4.2"
     const val material = "1.6.1"
     const val constraintLayout = "2.1.4"

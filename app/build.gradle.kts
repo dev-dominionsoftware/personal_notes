@@ -49,6 +49,7 @@ dependencies {
     implementation(Deps.constraintLayout)
     implementation(Deps.fragmentKtx)
     implementation(Deps.swipeRefreshLayout)
+    implementation(Deps.coreSplashScreen)
 
     // Logging
     implementation(Deps.logging)
