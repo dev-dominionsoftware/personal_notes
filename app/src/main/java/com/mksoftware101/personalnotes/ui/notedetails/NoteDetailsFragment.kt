@@ -22,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class NoteDetailsFragment : Fragment() {
 
     private val args: NoteDetailsFragmentArgs by navArgs()
+    private val isCreateNewNote get() = args.itemId == NotesListConstants.NOTE_ID_UNDEFINED
 
     private var _binding: FragmentNoteDetailsBinding? = null
     private val binding get() = _binding!!
@@ -60,7 +61,7 @@ class NoteDetailsFragment : Fragment() {
         }
         setupTitle()
         setupNavigationHome()
-        setupMenuListener()
+        setupToolbarMenu()
     }
 
     private fun render(state: NoteDetailsState) {
@@ -94,8 +95,12 @@ class NoteDetailsFragment : Fragment() {
         }
     }
 
-    private fun setupMenuListener() {
-        binding.noteDetailsTopAppBar.setOnMenuItemClickListener { menuItem ->
+    private fun setupToolbarMenu() {
+        if (isCreateNewNote) {
+            hideDeleteIcon()
+        }
+
+        binding.noteDetailsToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.noteDetailsMenuDeleteNote -> {
                     viewModel.deleteNote()
@@ -104,6 +109,10 @@ class NoteDetailsFragment : Fragment() {
                 else -> false
             }
         }
+    }
+
+    private fun hideDeleteIcon() {
+        binding.noteDetailsToolbar.menu.getItem(0).isVisible = false
     }
 
     private fun disableAll() {
@@ -123,7 +132,7 @@ class NoteDetailsFragment : Fragment() {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun setupNavigationHome() {
         setNavigationIcon(getDrawableBy(false))
-        binding.noteDetailsTopAppBar.setNavigationOnClickListener {
+        binding.noteDetailsToolbar.setNavigationOnClickListener {
             if (isNoteChanged) {
                 viewModel.saveNote()
             } else {
@@ -133,8 +142,8 @@ class NoteDetailsFragment : Fragment() {
     }
 
     private fun setupTitle() {
-        binding.noteDetailsTopAppBar.setTitle(
-            if (args.itemId == NotesListConstants.NOTE_ID_UNDEFINED) {
+        binding.noteDetailsToolbar.setTitle(
+            if (isCreateNewNote) {
                 R.string.noteDetailsTitleCreate
             } else {
                 R.string.noteDetailsTitleEdit
@@ -161,7 +170,7 @@ class NoteDetailsFragment : Fragment() {
 
     private fun setNavigationIcon(icon: Drawable?) {
         icon?.let { iconDrawable ->
-            binding.noteDetailsTopAppBar.navigationIcon = iconDrawable
+            binding.noteDetailsToolbar.navigationIcon = iconDrawable
             currentNavigationIcon = iconDrawable
         }
     }
