@@ -41,9 +41,9 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/notesRecyclerView"
-                    android:scrollbars="vertical"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:scrollbars="vertical"
                     app:itemBinding="@{viewModel.itemBinding}"
                     app:items="@{viewModel.itemsList}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
@@ -52,7 +52,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
@@ -60,6 +60,7 @@
             android:layout_marginBottom="@dimen/fabMargin"
             android:contentDescription="@string/notesListAddNewNoteContentDescription"
             android:onClick="@{() -> viewModel.onAddNewNoteClick()}"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            app:icon="@android:drawable/ic_input_add"
+            app:iconTint="@color/white" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
