@@ -30,4 +30,12 @@
         <item name="android:paddingStart">@dimen/detailsPadding</item>
         <item name="android:paddingEnd">@dimen/detailsPadding</item>
     </style>
+
+    <style name="NotesListEmpty" parent="TextAppearance.AppCompat.Display1">
+        <item name="android:textColor">?android:textColorHint</item>
+    </style>
+
+    <style name="NotesListEmpty.Secondary">
+        <item name="android:textSize">@dimen/abc_text_size_body_1_material</item>
+    </style>
 </resources>

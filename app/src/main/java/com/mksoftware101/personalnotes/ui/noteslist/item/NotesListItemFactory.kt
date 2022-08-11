@@ -10,6 +10,10 @@ class NotesListItemFactory
 @Inject constructor(private val formatter: NotesListDateSectionFormatter) {
 
     fun assemble(notesList: List<NoteUI>): List<NotesListItemBaseViewModel> {
+        if (notesList.isEmpty()) {
+            return emptyList()
+        }
+
         val output = mutableListOf<NotesListItemBaseViewModel>()
 
         val dateToNotesMap = mutableMapOf<DateText, List<NoteUI>>()

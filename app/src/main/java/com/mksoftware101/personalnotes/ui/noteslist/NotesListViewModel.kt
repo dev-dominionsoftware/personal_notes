@@ -91,6 +91,10 @@ class NotesListViewModel
                     val itemsList = notesListItemFactory.assemble(notesList.toNotesUIList())
                     hideLoading()
                     this@NotesListViewModel.itemsList.update(itemsList)
+
+                    if (notesList.isEmpty()) {
+                        reduce(NotesListPartialState.EmptyList)
+                    }
                 }
             } catch (e: Exception) {
                 hideLoading()
@@ -117,13 +121,17 @@ class NotesListViewModel
             is NotesListPartialState.Init -> {
                 _state.value = NotesListState.initialize()
             }
+            is NotesListPartialState.EmptyList -> {
+                _state.value = currentState.copy(isEmpty = true, isLoading = false)
+            }
             is NotesListPartialState.Loading -> {
                 _state.value =
                     currentState.copy(
                         isLoading = partialState.isLoading,
                         isItemClicked = false,
                         itemClickedId = null,
-                        isAddNewNoteClicked = false
+                        isAddNewNoteClicked = false,
+                        isEmpty = false
                     )
             }
             is NotesListPartialState.OnItemClick -> {
@@ -132,7 +140,7 @@ class NotesListViewModel
             }
             is NotesListPartialState.OnAddNewNoteClick -> {
                 _state.value = NotesListState.of(
-                    false, false, null, isAddNewNoteClicked = true
+                    false, false, null, isAddNewNoteClicked = true, false
                 )
             }
         }
