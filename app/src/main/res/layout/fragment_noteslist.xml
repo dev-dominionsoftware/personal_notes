@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,8 +10,7 @@
             type="com.mksoftware101.personalnotes.ui.noteslist.NotesListViewModel" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -29,6 +30,29 @@
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             tools:context=".ui.noteslist.NotesListFragment">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/notesListEmptyPrimary"
+                style="@style/NotesListEmpty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notesListEmptyPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.35" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/notesListEmptySecondary"
+                style="@style/NotesListEmpty.Secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/listPadding_12"
+                android:text="@string/notesListEmptySecondary"
+                app:layout_constraintEnd_toEndOf="@id/notesListEmptyPrimary"
+                app:layout_constraintStart_toStartOf="@id/notesListEmptyPrimary"
+                app:layout_constraintTop_toBottomOf="@+id/notesListEmptyPrimary" />
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/notesSwipeRefreshLayout"

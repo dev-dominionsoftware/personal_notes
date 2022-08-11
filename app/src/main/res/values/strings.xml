@@ -12,4 +12,6 @@
     <string name="noteDetailsCreateNoteFailed">Create note failed</string>
     <string name="noteDetailsEditNoteFailed">Edit note failed</string>
     <string name="noteDetailsDeleteNoteFailed">Delete note failed</string>
+    <string name="notesListEmptyPrimary">List is empty</string>
+    <string name="notesListEmptySecondary">Click Add button to create new note</string>
 </resources>

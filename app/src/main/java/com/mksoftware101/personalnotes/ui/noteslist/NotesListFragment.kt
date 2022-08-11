@@ -49,6 +49,15 @@ class NotesListFragment : Fragment() {
         if (state.isAddNewNoteClicked) {
             openDetailsScreen(itemId = null)
         }
+        handleEmptyTextVisibility(state.isEmpty)
+    }
+
+    private fun handleEmptyTextVisibility(isEmpty: Boolean) {
+        with(binding) {
+            val newVisibility = if (isEmpty) View.VISIBLE else View.GONE
+            notesListEmptyPrimary.visibility = newVisibility
+            notesListEmptySecondary.visibility = newVisibility
+        }
     }
 
     private fun openDetailsScreen(itemId: Long?) {

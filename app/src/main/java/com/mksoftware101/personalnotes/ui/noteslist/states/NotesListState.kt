@@ -5,16 +5,24 @@ data class NotesListState(
     val isItemClicked: Boolean,
     val itemClickedId: Long?,
     val isAddNewNoteClicked: Boolean,
+    val isEmpty: Boolean
 ) {
     companion object {
         fun of(
             isLoading: Boolean,
             isClicked: Boolean,
             clickedItemId: Long?,
-            isAddNewNoteClicked: Boolean
+            isAddNewNoteClicked: Boolean,
+            isEmpty: Boolean
         ) =
-            NotesListState(isLoading, isClicked, clickedItemId, isAddNewNoteClicked)
+            NotesListState(isLoading, isClicked, clickedItemId, isAddNewNoteClicked, isEmpty)
 
-        fun initialize() = of(isLoading = false, isClicked = false, clickedItemId = null, isAddNewNoteClicked = false)
+        fun initialize() = of(
+            isLoading = false,
+            isClicked = false,
+            clickedItemId = null,
+            isAddNewNoteClicked = false,
+            isEmpty = false
+        )
     }
 }
