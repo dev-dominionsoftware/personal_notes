@@ -61,6 +61,6 @@
             android:contentDescription="@string/notesListAddNewNoteContentDescription"
             android:onClick="@{() -> viewModel.onAddNewNoteClick()}"
             app:icon="@android:drawable/ic_input_add"
-            app:iconTint="@color/white" />
+            app:iconTint="?attr/colorOnPrimary" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
