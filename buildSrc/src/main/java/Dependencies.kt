@@ -30,6 +30,7 @@ object Deps {
 
     object Lifecycle {
         const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+        const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
     }
 
     object Firebase {
@@ -48,10 +49,22 @@ object Deps {
         const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
         const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
     }
+
+    object Compose {
+        const val ui = "androidx.compose.ui:ui:${Versions.compose}"
+        const val uiTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
+        const val uiTestManifest = "androidx.compose.ui:ui-test-manifest:${Versions.compose}"
+        const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview:${Versions.compose}"
+        const val material = "androidx.compose.material:material:${Versions.compose}"
+        const val activity = "androidx.activity:activity-compose:${Versions.activityCompose}"
+        const val animation = "androidx.compose.animation:animation:${Versions.compose}"
+        const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.viewModelCompose}"
+    }
 }
 
 object TestDeps {
     const val junit = "junit:junit:${TestVersions.junit}"
+    const val composeUiJunit = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
     const val androidExtJunit = "androidx.test.ext:junit:${TestVersions.androidExtJunit}"
     const val espresso = "androidx.test.espresso:espresso-core:${TestVersions.espressoCore}"
 }

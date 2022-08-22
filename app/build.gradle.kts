@@ -19,6 +19,9 @@ android {
         versionName = ConfigData.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -39,6 +42,15 @@ android {
     }
     buildFeatures {
         dataBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.composeKotlinCompilerExtension
+    }
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
@@ -50,6 +62,17 @@ dependencies {
     implementation(Deps.fragmentKtx)
     implementation(Deps.swipeRefreshLayout)
     implementation(Deps.coreSplashScreen)
+
+    // Compose
+    implementation(Deps.Compose.activity)
+    implementation(Deps.Lifecycle.runtimeKtx)
+    implementation(Deps.Compose.ui)
+    implementation(Deps.Compose.uiToolingPreview)
+    implementation(Deps.Compose.material)
+    implementation(Deps.Compose.animation)
+    implementation(Deps.Compose.viewModel)
+    implementation(Deps.Compose.uiTooling)
+    implementation(Deps.Compose.uiTestManifest)
 
     // Logging
     implementation(Deps.logging)
@@ -86,6 +109,7 @@ dependencies {
 
     // Tests
     testImplementation(TestDeps.junit)
+    androidTestImplementation(TestDeps.composeUiJunit)
     androidTestImplementation(TestDeps.androidExtJunit)
     androidTestImplementation(TestDeps.espresso)
 }
